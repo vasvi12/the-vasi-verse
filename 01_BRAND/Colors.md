@@ -48,12 +48,13 @@ Professional, Premium, Modern, Minimal, Focused, Confident, Technical, Founder-l
 
 ### Accent — Steel Blue
 - **HEX:** #4A7BA7
-- **Usage:** Buttons, links, interactive indicators, hover accents, small highlights.
+- **Usage:** Buttons, larger interactive indicators, hover accents, small highlights.
 - **Purpose:** Primary brand color. Should appear sparingly. Users should notice it. Never overwhelm the interface.
 
-### Accent Hover — Sky Steel
+### Accent — Sky Steel
 - **HEX:** #6B98C4
-- **Usage:** Hover state only. Never used as a permanent UI color.
+- **Usage:** Small accent text and links (permanent), plus accent hover states.
+- **Purpose:** Used as the permanent color for small accent text and links to satisfy accessibility contrast requirements against the dark background (Locked Decision 4). Also used for hover states on accent elements.
 
 ## Borders
 
@@ -72,13 +73,13 @@ These colors communicate system status. They are NOT branding colors.
 
 ## Interactive States
 
-**Buttons:** Default Steel Blue → Hover Sky Steel → Pressed darken by 8% → Disabled 40% opacity.
+**Buttons:** Default Steel Blue (#4A7BA7) → Hover Sky Steel (#6B98C4) → Pressed darken by 8% → Disabled 40% opacity.
 
 **Cards:** Default Deep Slate → Hover Graphite Blue → Active Graphite Blue + Accent Border.
 
 **Navigation:** Default Slate Grey → Hover Cloud White → Active Steel Blue underline.
 
-**Links:** Default Cloud White → Hover Steel Blue → Visited Cloud White. Maintain consistency.
+**Links:** Small accent links use Sky Steel (#6B98C4) by default for accessibility → Hover Sky Steel → Visited Cloud White. Maintain consistency.
 
 ## Card Layering
 
@@ -114,11 +115,11 @@ Very subtle. Almost invisible.
 
 ## Color Accessibility
 
-Maintain WCAG AA minimum. Prefer AAA whenever possible. Never use low contrast combinations. Every text element must remain readable.
+Maintain WCAG AA minimum. Prefer AAA whenever possible. Never use low contrast combinations. Every text element must remain readable. Small accent text and links use Sky Steel (#6B98C4) rather than Steel Blue (#4A7BA7) to preserve contrast at small sizes (Locked Decision 4).
 
 ## Color Usage Rules
 
-Accent Blue should never exceed 10% of the visible interface. Whitespace (negative space) should remain visually dominant. Typography should remain the strongest visual element. Color should guide interaction. Not demand attention.
+Accent blues combined should never exceed 10% of the visible interface. Whitespace (negative space) should remain visually dominant. Typography should remain the strongest visual element. Color should guide interaction. Not demand attention.
 
 ## Psychological Intent
 
