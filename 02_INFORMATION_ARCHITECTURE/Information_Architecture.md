@@ -39,12 +39,12 @@ The Vasi Verse
 ├── Builds
 │     ├── StudioAI
 │     ├── Growth Alpha
-│     └── DotRyder
+│     ├── DotRyder
+│     └── HootMe
 ├── Case Studies
 │     ├── Spotify
 │     ├── Blinkit
-│     ├── Uber
-│     └── HootMe
+│     └── Uber
 ├── Playground
 │     ├── Malware Detection
 │     ├── Attendance System
@@ -82,11 +82,11 @@ Cards act as gateways. They are not destinations.
 
 ## Builds
 
-Purpose: Show real work. Contains StudioAI, Growth Alpha, DotRyder. Each card includes Project Name, Subtitle, Role, Status, Year, Preview Image, View Documentation. Clicking opens a dedicated Notion page. Never display the full documentation on the website.
+Purpose: Show real work. Contains StudioAI, Growth Alpha, DotRyder, HootMe. Each card includes Project Name, Subtitle, Role, Status, Year, Preview Image, View Documentation. Clicking opens a dedicated Notion page. Never display the full documentation on the website. (HootMe was moved here from Case Studies per Locked Decision 5.)
 
 ## Case Studies
 
-Purpose: Demonstrate PM thinking. Contains Spotify, Blinkit, Uber, HootMe. Each follows the same card structure. Clicking opens a dedicated Notion page.
+Purpose: Demonstrate PM thinking. Contains Spotify, Blinkit, Uber. Each follows the same card structure. Clicking opens a dedicated Notion page.
 
 ## Playground
 
@@ -110,7 +110,7 @@ Cards should never feel like buttons. They should feel like products. Hover → 
 
 ## External Links
 
-External destinations include Notion, GitHub, LinkedIn, Resume. Whenever opening an external platform, open in a new tab. Never interrupt the browsing experience.
+External destinations include Notion, GitHub, LinkedIn, Resume. Whenever opening an external platform, open in a new tab. Never interrupt the browsing experience. (Notion pages are currently placeholders and will be filled later per Locked Decision 6.)
 
 ## Content Ownership
 
