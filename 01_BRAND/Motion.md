@@ -31,7 +31,7 @@ Every interaction should feel physically believable. Avoid exaggerated scaling. 
 
 | Type | Duration | Examples |
 | --- | --- | --- |
-| Micro Interaction | 250ms | Hover, buttons, cursor, links |
+| Micro Interaction | 250ms | Hover, buttons, links |
 | Card Interaction | 450ms | Card hover, image reveal, card expansion |
 | Page Transition | 700ms | Opening Builds / Case Studies / Playground, navigation |
 | Hero Entrance | 900ms | Only on first page load. Never replay. |
@@ -49,7 +49,10 @@ Hover should provide confidence. Never surprise.
 - **Buttons:** Background transitions, slight lift 2px, duration 250ms.
 - **Cards:** Background becomes slightly brighter, border opacity increases, shadow becomes slightly stronger, card lifts 4px, image zooms 1.02x, arrow shifts 4px. Nothing else moves.
 - **Navigation:** Underline fades in, text opacity increases, duration 250ms.
-- **Cursor:** Default minimal white circle; on hover expands slightly and displays "OPEN →" (only for clickable cards).
+
+## Cursor
+
+The system uses the default native cursor. No custom cursor is used. (Locked Decision 3 — the custom cursor has been removed.)
 
 ## Page Transitions
 
