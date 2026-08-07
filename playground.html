@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Playground | The Vasi Verse</title>
+  <meta name="description" content="Experiments, engineering projects, AI explorations and ideas I'm currently building.">
+  <link rel="icon" type="image/svg+xml" href="assets/shared/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav" aria-label="Primary">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="The Vasi Verse — Home">VH</a>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <div class="nav-links">
+        <a href="builds.html" class="nav-link">Builds</a>
+        <a href="case-studies.html" class="nav-link">Case Studies</a>
+        <a href="playground.html" class="nav-link is-active">Playground</a>
+        <a href="resume.html" class="nav-link">Resume</a>
+        <a href="connect.html" class="nav-link">Connect</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <header class="page-hero container" data-hero="playground">
+      <div class="page-hero-copy">
+        <span class="eyebrow" data-hero-item style="--hero-delay:0ms">Playground</span>
+        <h1 class="display-lg" data-hero-item style="--hero-delay:100ms">Ideas. Experiments. Curiosity.</h1>
+        <p class="body-lg" data-hero-item style="--hero-delay:200ms">Some experiments become products. Some become failures. Every one of them teaches me something worth carrying forward. Playground is where I learn in public.</p>
+      </div>
+      <aside class="page-hero-meta" data-hero-item style="--hero-delay:300ms">
+        <div class="meta-panel">
+          <div class="meta-row">
+            <span class="meta-label">Experiments</span>
+            <span class="meta-value mono">04</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Primary Stack</span>
+            <span class="meta-value">Python / Django / AI</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-label">Status</span>
+            <span class="meta-value"><span class="status-dot"></span>Always Building</span>
+          </div>
+        </div>
+      </aside>
+    </header>
+
+    <section class="section container">
+      <ol class="timeline">
+
+        <li class="timeline-item" data-reveal>
+          <span class="timeline-year">2023</span>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <img class="timeline-diagram" src="assets/playground/malware.svg" alt="" loading="lazy" width="56" height="56">
+              <div>
+                <h3 class="heading-3">Learning Deep Learning Through Malware Detection</h3>
+                <span class="caption">Deep Learning for Malware Classification</span>
+              </div>
+              <span class="chip chip-success" style="margin-left:auto;">Completed</span>
+            </div>
+            <p class="body-small">Built and benchmarked multiple deep learning models using a 200GB malware dataset to understand how different architectures perform in real-world classification tasks.</p>
+            <div class="pill-row" style="margin-top:16px;">
+              <span class="pill">Python</span><span class="pill">TensorFlow</span><span class="pill">CNN</span><span class="pill">LSTM</span><span class="pill">FNN</span>
+            </div>
+            <ul class="timeline-learnings">
+              <li>Feature engineering matters more than model complexity.</li>
+              <li>CNN outperformed baseline models on image-like representations.</li>
+              <li>Dataset quality directly impacted generalization.</li>
+            </ul>
+            <div class="editorial-ctas" style="margin-top:20px;">
+              <!-- TODO: replace with the Malware Detection GitHub repository URL -->
+              <a href="https://github.com/vasvi12" target="_blank" rel="noopener" class="btn-link">View Repository <span class="arrow">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+
+        <li class="timeline-item" data-reveal>
+          <span class="timeline-year">2024</span>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <img class="timeline-diagram" src="assets/playground/attendance.svg" alt="" loading="lazy" width="56" height="56">
+              <div>
+                <h3 class="heading-3">Can Computer Vision Replace Manual Attendance?</h3>
+                <span class="caption">Computer Vision Automation</span>
+              </div>
+              <span class="chip chip-success" style="margin-left:auto;">Completed</span>
+            </div>
+            <p class="body-small">Built a real-time attendance system using OpenCV and Django to automate classroom attendance.</p>
+            <div class="pill-row" style="margin-top:16px;">
+              <span class="pill">Python</span><span class="pill">OpenCV</span><span class="pill">Django</span><span class="pill">SQL</span>
+            </div>
+            <ul class="timeline-learnings">
+              <li>Computer vision products depend more on environment than algorithms.</li>
+              <li>Lighting and positioning dramatically affect accuracy.</li>
+            </ul>
+            <div class="editorial-ctas" style="margin-top:20px;">
+              <!-- TODO: replace with the Attendance System GitHub repository URL -->
+              <a href="https://github.com/vasvi12" target="_blank" rel="noopener" class="btn-link">View Repository <span class="arrow">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+
+        <li class="timeline-item" data-reveal>
+          <span class="timeline-year">2025</span>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <img class="timeline-diagram" src="assets/playground/prompt-engineering.svg" alt="" loading="lazy" width="56" height="56">
+              <div>
+                <h3 class="heading-3">Understanding LLM Reasoning Through Prompt Engineering</h3>
+                <span class="caption">LLMs, Prompt Design, Reasoning</span>
+              </div>
+              <span class="chip chip-warning" style="margin-left:auto;">In Progress</span>
+            </div>
+            <p class="body-small">Exploring how different prompting strategies affect reasoning quality, consistency, and failure modes across large language models.</p>
+            <div class="pill-row" style="margin-top:16px;">
+              <span class="pill">Python</span><span class="pill">LLM APIs</span><span class="pill">Prompt Design</span><span class="pill">Evaluation</span>
+            </div>
+            <ul class="timeline-learnings">
+              <li>Structure in a prompt often matters more than length.</li>
+              <li>Small wording changes can shift reasoning quality significantly.</li>
+              <li>Evaluation frameworks matter as much as the prompts themselves.</li>
+            </ul>
+            <div class="editorial-ctas" style="margin-top:20px;">
+              <!-- TODO: replace with the Prompt Engineering GitHub repository URL -->
+              <a href="https://github.com/vasvi12" target="_blank" rel="noopener" class="btn-link">View Repository <span class="arrow">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+
+        <li class="timeline-item" data-reveal>
+          <span class="timeline-year">2026</span>
+          <div class="timeline-card">
+            <div class="timeline-header">
+              <img class="timeline-diagram" src="assets/playground/automation.svg" alt="" loading="lazy" width="56" height="56">
+              <div>
+                <h3 class="heading-3">Automating the Repetitive, One Workflow at a Time</h3>
+                <span class="caption">Workflow Automation</span>
+              </div>
+              <span class="chip chip-warning" style="margin-left:auto;">Always Building</span>
+            </div>
+            <p class="body-small">Building small automation tools and scripts to remove repetitive manual work across research, documentation, and personal workflows.</p>
+            <div class="pill-row" style="margin-top:16px;">
+              <span class="pill">Python</span><span class="pill">APIs</span><span class="pill">Scripting</span>
+            </div>
+            <ul class="timeline-learnings">
+              <li>Small automations compound faster than expected.</li>
+              <li>The best automation is the one that disappears into the workflow.</li>
+            </ul>
+            <div class="editorial-ctas" style="margin-top:20px;">
+              <!-- TODO: replace with the Automation GitHub repository URL -->
+              <a href="https://github.com/vasvi12" target="_blank" rel="noopener" class="btn-link">View Repository <span class="arrow">&rarr;</span></a>
+            </div>
+          </div>
+        </li>
+
+      </ol>
+    </section>
+
+    <section class="section container" data-reveal>
+      <div class="gateway-heading">
+        <h2 class="heading-1">Currently Exploring</h2>
+      </div>
+      <ul class="checklist">
+        <li class="checklist-item"><span class="checklist-box"></span>MCP Servers</li>
+        <li class="checklist-item"><span class="checklist-box"></span>AI Agents</li>
+        <li class="checklist-item"><span class="checklist-box"></span>Product Analytics</li>
+        <li class="checklist-item"><span class="checklist-box"></span>Recommendation Systems</li>
+        <li class="checklist-item"><span class="checklist-box"></span>Multi-Agent Workflows</li>
+        <li class="checklist-item"><span class="checklist-box"></span>System Design</li>
+      </ul>
+    </section>
+
+    <footer class="footer container" data-reveal>
+      <p class="footer-statement">Curiosity compounds. Every experiment makes the next product better.</p>
+      <div class="footer-links">
+        <a class="footer-link" href="mailto:vasvi.2003hegde@gmail.com">Email</a>
+        <!-- TODO: replace with your LinkedIn profile URL -->
+        <a class="footer-link" href="https://www.linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="footer-link" href="https://github.com/vasvi12" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <p class="footer-copyright">&copy; <span data-year></span> The Vasi Verse</p>
+    </footer>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
