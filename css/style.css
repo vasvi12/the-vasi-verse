@@ -671,11 +671,12 @@ body {
 }
 
 /* Logo lockup variant — the three Builds logos have wildly different native
-   aspect ratios (wide/square/tiny), so they sit contained on a neutral light
-   plate instead of being cropped/stretched to fill the frame like the
-   illustrative media does. */
+   aspect ratios (wide/square/tiny), so they sit contained on the same dark
+   surface as the other media boxes instead of being cropped/stretched to
+   fill the frame. StudioAI.png and DotRyder.png have their own baked-in
+   white background (not something CSS can strip), so those two will still
+   show a light rectangle — GrowthAlpha.png is transparent and blends in. */
 .editorial-media.is-logo {
-  background: var(--color-text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
