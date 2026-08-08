@@ -627,7 +627,7 @@ body {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 64px;
   align-items: center;
-  padding: 96px 0;
+  padding: 96px 40px;
   border-bottom: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   cursor: pointer;
@@ -707,7 +707,7 @@ body {
 .editorial-ctas { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
 
 @media (max-width: 900px) {
-  .editorial-row { grid-template-columns: 1fr; gap: 32px; padding: 64px 0; }
+  .editorial-row { grid-template-columns: 1fr; gap: 32px; padding: 64px 24px; }
   .editorial-row.is-reversed .editorial-media { order: 1; }
   .editorial-row.is-reversed .editorial-content { order: 2; }
 }
