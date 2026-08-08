@@ -16,9 +16,10 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo" aria-label="The Vasi Verse — Home">VH</a>
       <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line class="nav-toggle-line nav-toggle-line-top" x1="3" y1="6" x2="21" y2="6"/><line class="nav-toggle-line nav-toggle-line-mid" x1="3" y1="12" x2="21" y2="12"/><line class="nav-toggle-line nav-toggle-line-bottom" x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
       <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
         <a href="builds.html" class="nav-link">Builds</a>
         <a href="case-studies.html" class="nav-link">Case Studies</a>
         <a href="playground.html" class="nav-link is-active">Playground</a>
@@ -29,28 +30,12 @@
   </nav>
 
   <main>
-    <header class="page-hero container" data-hero="playground">
+    <header class="page-hero is-full container" data-hero="playground">
       <div class="page-hero-copy">
         <span class="eyebrow" data-hero-item style="--hero-delay:0ms">Playground</span>
         <h1 class="display-lg" data-hero-item style="--hero-delay:100ms">Ideas. Experiments. Curiosity.</h1>
-        <p class="body-lg" data-hero-item style="--hero-delay:200ms">Some experiments become products. Some become failures. Every one of them teaches me something worth carrying forward. Playground is where I learn in public.</p>
+        <p class="body-lg" data-hero-item style="--hero-delay:200ms">The place where I test curiosity through low-code experiments and questions I can't stop thinking about.</p>
       </div>
-      <aside class="page-hero-meta" data-hero-item style="--hero-delay:300ms">
-        <div class="meta-panel">
-          <div class="meta-row">
-            <span class="meta-label">Experiments</span>
-            <span class="meta-value mono">04</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Primary Stack</span>
-            <span class="meta-value">Python / Django / AI</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Status</span>
-            <span class="meta-value"><span class="status-dot"></span>Always Building</span>
-          </div>
-        </div>
-      </aside>
     </header>
 
     <section class="section container">
@@ -67,7 +52,7 @@
               </div>
               <span class="chip chip-success" style="margin-left:auto;">Completed</span>
             </div>
-            <p class="body-small">Built and benchmarked multiple deep learning models using a 200GB malware dataset to understand how different architectures perform in real-world classification tasks.</p>
+            <p class="body-small">Explored how different deep learning architectures perform when classifying malware at scale. I benchmarked CNN, RNN, and other architectures across a 200GB dataset, achieving 95%+ accuracy and learning how representation and data quality affect model performance.</p>
             <div class="pill-row" style="margin-top:16px;">
               <span class="pill">Python</span><span class="pill">TensorFlow</span><span class="pill">CNN</span><span class="pill">LSTM</span><span class="pill">FNN</span>
             </div>
@@ -77,8 +62,7 @@
               <li>Dataset quality directly impacted generalization.</li>
             </ul>
             <div class="editorial-ctas" style="margin-top:20px;">
-              <!-- TODO: replace with the Malware Detection GitHub repository URL -->
-              <a href="https://github.com/vasvi12" target="_blank" rel="noopener" class="btn-link">View Repository <span class="arrow">&rarr;</span></a>
+              <a href="https://github.com/vasvi12/Malware-Detection-Using-Deep-Learning" target="_blank" rel="noopener" class="btn-link stretched-link">View Repository <span class="arrow">&rarr;</span></a>
             </div>
           </div>
         </li>
@@ -94,17 +78,15 @@
               </div>
               <span class="chip chip-success" style="margin-left:auto;">Completed</span>
             </div>
-            <p class="body-small">Built a real-time attendance system using OpenCV and Django to automate classroom attendance.</p>
+            <p class="body-small">Built a computer-vision attendance system to replace manual classroom attendance, using OpenCV and Django to detect and record students in real time.</p>
             <div class="pill-row" style="margin-top:16px;">
               <span class="pill">Python</span><span class="pill">OpenCV</span><span class="pill">Django</span><span class="pill">SQL</span>
             </div>
             <ul class="timeline-learnings">
-              <li>Computer vision products depend more on environment than algorithms.</li>
-              <li>Lighting and positioning dramatically affect accuracy.</li>
+              <li>The biggest challenge wasn't detection—it was making the system reliable across different lighting and positioning conditions.</li>
             </ul>
             <div class="editorial-ctas" style="margin-top:20px;">
-              <!-- TODO: replace with the Attendance System GitHub repository URL -->
-              <a href="https://github.com/vasvi12" target="_blank" rel="noopener" class="btn-link">View Repository <span class="arrow">&rarr;</span></a>
+              <a href="https://github.com/vasvi12/Attendance-marking-system" target="_blank" rel="noopener" class="btn-link stretched-link">View Repository <span class="arrow">&rarr;</span></a>
             </div>
           </div>
         </li>
@@ -120,7 +102,7 @@
               </div>
               <span class="chip chip-warning" style="margin-left:auto;">In Progress</span>
             </div>
-            <p class="body-small">Exploring how different prompting strategies affect reasoning quality, consistency, and failure modes across large language models.</p>
+            <p class="body-small">An ongoing experiment into how prompt structure changes the quality, consistency, and failure modes of LLM outputs. I test different prompting strategies and evaluate where small changes in instructions meaningfully change outcomes.</p>
             <div class="pill-row" style="margin-top:16px;">
               <span class="pill">Python</span><span class="pill">LLM APIs</span><span class="pill">Prompt Design</span><span class="pill">Evaluation</span>
             </div>
@@ -130,34 +112,7 @@
               <li>Evaluation frameworks matter as much as the prompts themselves.</li>
             </ul>
             <div class="editorial-ctas" style="margin-top:20px;">
-              <!-- TODO: replace with the Prompt Engineering GitHub repository URL -->
-              <a href="https://github.com/vasvi12" target="_blank" rel="noopener" class="btn-link">View Repository <span class="arrow">&rarr;</span></a>
-            </div>
-          </div>
-        </li>
-
-        <li class="timeline-item" data-reveal>
-          <span class="timeline-year">2026</span>
-          <div class="timeline-card">
-            <div class="timeline-header">
-              <img class="timeline-diagram" src="assets/playground/automation.svg" alt="" loading="lazy" width="56" height="56">
-              <div>
-                <h3 class="heading-3">Automating the Repetitive, One Workflow at a Time</h3>
-                <span class="caption">Workflow Automation</span>
-              </div>
-              <span class="chip chip-warning" style="margin-left:auto;">Always Building</span>
-            </div>
-            <p class="body-small">Building small automation tools and scripts to remove repetitive manual work across research, documentation, and personal workflows.</p>
-            <div class="pill-row" style="margin-top:16px;">
-              <span class="pill">Python</span><span class="pill">APIs</span><span class="pill">Scripting</span>
-            </div>
-            <ul class="timeline-learnings">
-              <li>Small automations compound faster than expected.</li>
-              <li>The best automation is the one that disappears into the workflow.</li>
-            </ul>
-            <div class="editorial-ctas" style="margin-top:20px;">
-              <!-- TODO: replace with the Automation GitHub repository URL -->
-              <a href="https://github.com/vasvi12" target="_blank" rel="noopener" class="btn-link">View Repository <span class="arrow">&rarr;</span></a>
+              <a href="https://github.com/vasvi12/Understanding-LLM-Reasoning-Through-Prompt-Engineering" target="_blank" rel="noopener" class="btn-link stretched-link">View Repository <span class="arrow">&rarr;</span></a>
             </div>
           </div>
         </li>
@@ -168,19 +123,11 @@
     <section class="section container" data-reveal>
       <div class="gateway-heading">
         <h2 class="heading-1">Currently Exploring</h2>
+        <p class="body-base">Lately I've been exploring AI agents, product analytics, recommendation systems, and how AI-native products should be designed.</p>
       </div>
-      <ul class="checklist">
-        <li class="checklist-item"><span class="checklist-box"></span>MCP Servers</li>
-        <li class="checklist-item"><span class="checklist-box"></span>AI Agents</li>
-        <li class="checklist-item"><span class="checklist-box"></span>Product Analytics</li>
-        <li class="checklist-item"><span class="checklist-box"></span>Recommendation Systems</li>
-        <li class="checklist-item"><span class="checklist-box"></span>Multi-Agent Workflows</li>
-        <li class="checklist-item"><span class="checklist-box"></span>System Design</li>
-      </ul>
     </section>
 
     <footer class="footer container" data-reveal>
-      <p class="footer-statement">Curiosity compounds. Every experiment makes the next product better.</p>
       <div class="footer-links">
         <a class="footer-link" href="mailto:vasvi.2003hegde@gmail.com">Email</a>
         <!-- TODO: replace with your LinkedIn profile URL -->

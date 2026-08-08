@@ -29,19 +29,33 @@
   --color-error: #EF4444;
   --color-info: #3B82F6;
 
+  /* Accent — restrained light-blue system layered on top of the base palette.
+     Used for eyebrows, stat/status surfaces, borders and focus states.
+     --accent-blue-strong is a separately-calibrated tone for the primary
+     button: it's dark enough to hold WCAG AA contrast under white text,
+     which --accent-blue itself (#7FB3FF) is too light to do. */
+  --accent-blue: #7FB3FF;
+  --accent-blue-soft: #A8CBFF;
+  --accent-blue-bg: rgba(127, 179, 255, 0.10);
+  --accent-blue-border: rgba(127, 179, 255, 0.28);
+  --accent-blue-strong: #2B63D9;
+  --accent-blue-strong-hover: #2E68DE;
+
   /* Shadows — always blue-tinted, never pure black */
   --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.18);
   --shadow-md: 0 16px 48px rgba(0, 0, 0, 0.24);
   --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.30);
+  --shadow-glow: 0 0 0 1px var(--accent-blue-border);
 
   /* Type */
   --font-display: 'Geist', 'Inter', -apple-system, sans-serif;
   --font-body: 'Inter', -apple-system, sans-serif;
   --font-mono: 'Geist Mono', 'SFMono-Regular', monospace;
 
-  /* Layout */
+  /* Layout — single fluid inline padding so nav, hero, cards and footer
+     always share the same left/right grid line at any viewport width. */
   --content-max: 1200px;
-  --page-margin: 120px;
+  --page-margin: clamp(24px, 6vw, 120px);
   --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 24px;
@@ -55,14 +69,6 @@
   --dur-page: 700ms;
   --dur-hero: 900ms;
   --dur-scroll: 600ms;
-}
-
-@media (max-width: 1024px) {
-  :root { --page-margin: 48px; }
-}
-
-@media (max-width: 640px) {
-  :root { --page-margin: 24px; }
 }
 
 /* -------------------------------------------------------------------------
@@ -96,9 +102,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 h1, h2, h3, h4, p { margin: 0; overflow-wrap: break-word; }
 
-/* Background atmosphere — subtle radial gradient, top right, near invisible */
+/* Background atmosphere — subtle accent-blue glow behind the hero, near invisible */
 body {
-  background-image: radial-gradient(circle at 85% 0%, rgba(74, 123, 167, 0.06), transparent 55%);
+  background-image: radial-gradient(circle at 85% 0%, rgba(127, 179, 255, 0.04), transparent 55%);
   background-repeat: no-repeat;
 }
 
@@ -186,7 +192,7 @@ body {
   font-size: 14px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--color-accent-hover);
+  color: var(--accent-blue);
 }
 
 .mono { font-family: var(--font-mono); }
@@ -197,7 +203,7 @@ body {
 .container {
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: 0 var(--page-margin);
+  padding-inline: var(--page-margin);
 }
 
 .section {
@@ -224,7 +230,6 @@ body {
   height: 72px;
   display: flex;
   align-items: center;
-  padding: 0 var(--page-margin);
   background: transparent;
   border-bottom: 1px solid transparent;
   transition: background var(--dur-micro) var(--ease-standard),
@@ -239,10 +244,15 @@ body {
   -webkit-backdrop-filter: blur(12px);
 }
 
+/* Same box model as .container (max-width, then padding-inline applied
+   inside it) so the logo lands on the exact same grid line as hero/card
+   content below it. Padding lives here rather than on .nav so the
+   translucent scrolled background can still bleed full-width. */
 .nav-inner {
   width: 100%;
   max-width: var(--content-max);
   margin: 0 auto;
+  padding-inline: var(--page-margin);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -256,7 +266,7 @@ body {
   transition: color var(--dur-micro) var(--ease-standard);
 }
 
-.nav-logo:hover { color: var(--color-accent-hover); }
+.nav-logo:hover { color: var(--accent-blue); }
 
 .nav-links {
   display: flex;
@@ -270,7 +280,9 @@ body {
   font-weight: 500;
   color: var(--color-text-secondary);
   padding-bottom: 4px;
-  transition: color var(--dur-micro) var(--ease-standard);
+  transition: color var(--dur-micro) var(--ease-standard),
+              opacity var(--dur-micro) var(--ease-standard),
+              transform var(--dur-micro) var(--ease-standard);
 }
 
 .nav-link::after {
@@ -280,7 +292,7 @@ body {
   bottom: 0;
   width: 100%;
   height: 1px;
-  background: var(--color-accent);
+  background: var(--accent-blue);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--dur-micro) var(--ease-standard);
@@ -292,15 +304,40 @@ body {
 .nav-link.is-active { color: var(--color-text-primary); }
 .nav-link.is-active::after { transform: scaleX(1); }
 
+/* Spotlight hover — desktop only. Hovering the nav dims every link except
+   the one under the cursor, which lifts slightly and picks up the accent. */
+@media (min-width: 769px) {
+  .nav-links:hover .nav-link { opacity: 0.45; }
+  .nav-links:hover .nav-link:hover {
+    opacity: 1;
+    transform: scale(1.06);
+    color: var(--accent-blue-soft);
+  }
+}
+
 .nav-toggle {
   display: none;
+  position: relative;
+  z-index: 101;
   background: none;
   border: none;
   color: var(--color-text-primary);
   padding: 8px;
 }
 
-.nav-toggle svg { width: 24px; height: 24px; }
+.nav-toggle svg { width: 24px; height: 24px; overflow: visible; }
+
+.nav-toggle .nav-toggle-line {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform var(--dur-micro) var(--ease-standard),
+              opacity var(--dur-micro) var(--ease-standard);
+}
+
+/* Hamburger morphs into a close (×) mark when the panel is open */
+.nav-toggle[aria-expanded="true"] .nav-toggle-line-top { transform: translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle-line-mid { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle-line-bottom { transform: translateY(-6px) rotate(-45deg); }
 
 @media (max-width: 768px) {
   .nav-links {
@@ -308,11 +345,14 @@ body {
     top: 72px;
     left: 0;
     right: 0;
+    bottom: 0;
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
     padding: 32px var(--page-margin) 40px;
-    background: rgba(8, 11, 18, 0.98);
+    background: rgba(8, 11, 18, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--color-border);
     transform: translateY(-8px);
     opacity: 0;
@@ -325,6 +365,13 @@ body {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
+  }
+
+  /* Spotlight is a desktop-only affordance; mobile links stay at full opacity */
+  .nav-links:hover .nav-link,
+  .nav-links .nav-link:hover {
+    opacity: 1;
+    transform: none;
   }
 
   .nav-toggle { display: block; }
@@ -353,24 +400,26 @@ body {
 }
 
 .btn-primary {
-  background: var(--color-accent);
-  color: var(--color-text-primary);
+  background: var(--accent-blue-strong);
+  color: #ffffff;
 }
 
 .btn-primary:hover {
-  background: var(--color-accent-hover);
+  background: var(--accent-blue-strong-hover);
   transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(43, 99, 217, 0.35);
 }
 
 .btn-ghost {
   background: transparent;
-  border-color: var(--color-border-strong);
-  color: var(--color-text-primary);
+  border-color: var(--accent-blue-border);
+  color: var(--accent-blue-soft);
 }
 
 .btn-ghost:hover {
-  border-color: var(--color-accent-hover);
-  color: var(--color-accent-hover);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: var(--accent-blue-bg);
   transform: translateY(-2px);
 }
 
@@ -378,7 +427,7 @@ body {
   height: auto;
   padding: 0;
   border-radius: 0;
-  color: var(--color-accent-hover);
+  color: var(--accent-blue-soft);
   font-size: 16px;
   gap: 6px;
 }
@@ -396,8 +445,8 @@ body {
    Metadata panel (Product Overview)
    ------------------------------------------------------------------------- */
 .meta-panel {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue-border);
   border-radius: var(--radius-lg);
   padding: 40px;
 }
@@ -453,13 +502,16 @@ body {
   text-transform: uppercase;
   padding: 6px 14px;
   border-radius: 100px;
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
+  background: var(--accent-blue-bg);
+  border: 1px solid var(--accent-blue-border);
+  color: var(--accent-blue-soft);
 }
 
-.chip-success { color: var(--color-success); border-color: rgba(34, 197, 94, 0.3); }
-.chip-warning { color: var(--color-warning); border-color: rgba(245, 158, 11, 0.3); }
-.chip-accent { color: var(--color-accent-hover); border-color: rgba(107, 152, 196, 0.3); }
+/* Success/warning keep their own semantic hue — status meaning (Completed vs.
+   In Progress) is carried by color, so it stays distinct from the accent system. */
+.chip-success { color: var(--color-success); background: rgba(34, 197, 94, 0.08); border-color: rgba(34, 197, 94, 0.3); }
+.chip-warning { color: var(--color-warning); background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.3); }
+.chip-accent { color: var(--accent-blue-soft); background: var(--accent-blue-bg); border-color: var(--accent-blue-border); }
 
 .pill {
   display: inline-flex;
@@ -485,18 +537,34 @@ body {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
+  cursor: pointer;
   transition: transform var(--dur-card) var(--ease-standard),
               border-color var(--dur-card) var(--ease-standard),
               box-shadow var(--dur-card) var(--ease-standard),
-              background var(--dur-card) var(--ease-standard);
+              background var(--dur-card) var(--ease-standard),
+              opacity var(--dur-card) var(--ease-standard),
+              filter var(--dur-card) var(--ease-standard);
 }
 
 .card:hover,
 .card:focus-visible {
-  transform: translateY(-4px);
-  border-color: rgba(107, 152, 196, 0.4);
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--accent-blue-border);
   background: var(--color-elevated);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+/* Spotlight — hovering the group dims every card except the one under the cursor */
+.card-grid:hover > .card,
+.small-card-grid:hover > .card {
+  opacity: 0.5;
+  filter: saturate(0.85);
+}
+
+.card-grid:hover > .card:hover,
+.small-card-grid:hover > .card:hover {
+  opacity: 1;
+  filter: none;
 }
 
 .card-media {
@@ -561,12 +629,29 @@ body {
   align-items: center;
   padding: 96px 0;
   border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  cursor: pointer;
+  transition: transform var(--dur-card) var(--ease-standard),
+              box-shadow var(--dur-card) var(--ease-standard),
+              background var(--dur-card) var(--ease-standard),
+              opacity var(--dur-card) var(--ease-standard),
+              filter var(--dur-card) var(--ease-standard);
 }
 
 .editorial-row:last-child { border-bottom: none; }
 
 .editorial-row.is-reversed .editorial-media { order: 2; }
 .editorial-row.is-reversed .editorial-content { order: 1; }
+
+.editorial-row:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  background: var(--color-surface);
+}
+
+/* Spotlight — hovering the list dims every build except the one under the cursor */
+.builds-list:hover > .editorial-row { opacity: 0.5; filter: saturate(0.85); }
+.builds-list:hover > .editorial-row:hover { opacity: 1; filter: none; }
 
 .editorial-media {
   border-radius: var(--radius-xl);
@@ -585,7 +670,27 @@ body {
               filter var(--dur-card) var(--ease-standard);
 }
 
-.editorial-row:hover .editorial-media { border-color: rgba(107, 152, 196, 0.4); }
+/* Logo lockup variant — the three Builds logos have wildly different native
+   aspect ratios (wide/square/tiny), so they sit contained on a neutral light
+   plate instead of being cropped/stretched to fill the frame like the
+   illustrative media does. */
+.editorial-media.is-logo {
+  background: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px;
+}
+
+.editorial-media.is-logo img {
+  width: auto;
+  height: auto;
+  max-width: 70%;
+  max-height: 70%;
+  object-fit: contain;
+}
+
+.editorial-row:hover .editorial-media { border-color: var(--accent-blue-border); }
 .editorial-row:hover .editorial-media img { transform: scale(1.02); filter: brightness(1.05); }
 
 .editorial-content { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
@@ -647,16 +752,19 @@ body {
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   background: var(--color-surface);
+  cursor: pointer;
   transition: transform var(--dur-card) var(--ease-standard),
               border-color var(--dur-card) var(--ease-standard),
-              background var(--dur-card) var(--ease-standard);
+              background var(--dur-card) var(--ease-standard),
+              box-shadow var(--dur-card) var(--ease-standard);
 }
 
 .contact-card:hover,
 .contact-card:focus-visible {
-  transform: translateY(-4px);
-  border-color: rgba(107, 152, 196, 0.4);
+  transform: translateY(-6px) scale(1.01);
+  border-color: var(--accent-blue-border);
   background: var(--color-elevated);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .contact-card-icon {
@@ -667,7 +775,7 @@ body {
   justify-content: center;
   border-radius: 12px;
   background: var(--color-elevated);
-  color: var(--color-accent-hover);
+  color: var(--accent-blue);
   flex-shrink: 0;
 }
 
@@ -682,7 +790,7 @@ body {
 
 .contact-card:hover .contact-card-arrow {
   transform: translateX(4px);
-  color: var(--color-accent-hover);
+  color: var(--accent-blue);
 }
 
 /* -------------------------------------------------------------------------
@@ -715,7 +823,7 @@ body {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: var(--color-accent);
+  background: var(--accent-blue);
   border: 2px solid var(--color-bg);
   box-shadow: 0 0 0 1px var(--color-border);
 }
@@ -724,7 +832,7 @@ body {
   font-family: var(--font-mono);
   font-size: 13px;
   letter-spacing: 0.08em;
-  color: var(--color-accent-hover);
+  color: var(--accent-blue);
   margin-bottom: 12px;
   display: block;
 }
@@ -734,11 +842,23 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 32px 36px;
+  cursor: pointer;
   transition: border-color var(--dur-card) var(--ease-standard),
-              background var(--dur-card) var(--ease-standard);
+              background var(--dur-card) var(--ease-standard),
+              transform var(--dur-card) var(--ease-standard),
+              box-shadow var(--dur-card) var(--ease-standard);
 }
 
-.timeline-card:hover { border-color: rgba(107, 152, 196, 0.3); background: var(--color-elevated); }
+.timeline-card:hover {
+  border-color: var(--accent-blue-border);
+  background: var(--color-elevated);
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+/* Spotlight — hovering the timeline dims every experiment except the one under the cursor */
+.timeline:hover > .timeline-item { opacity: 0.5; filter: saturate(0.85); transition: opacity var(--dur-card) var(--ease-standard), filter var(--dur-card) var(--ease-standard); }
+.timeline:hover > .timeline-item:hover { opacity: 1; filter: none; }
 
 .timeline-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
 
@@ -766,7 +886,7 @@ body {
   content: '→';
   position: absolute;
   left: 0;
-  color: var(--color-accent-hover);
+  color: var(--accent-blue);
 }
 
 /* -------------------------------------------------------------------------
@@ -858,7 +978,7 @@ body {
 .form-input:focus,
 .form-textarea:focus {
   outline: none;
-  border-color: var(--color-accent);
+  border-color: var(--accent-blue);
 }
 
 .form-textarea { resize: vertical; min-height: 140px; }
@@ -869,7 +989,7 @@ body {
    Footer
    ------------------------------------------------------------------------- */
 .footer {
-  padding: 160px 0 64px;
+  padding-block: 160px 64px;
   text-align: center;
 }
 
@@ -892,10 +1012,17 @@ body {
 .footer-link {
   font-size: 15px;
   color: var(--color-text-secondary);
-  transition: color var(--dur-micro) var(--ease-standard);
+  text-underline-offset: 4px;
+  text-decoration: none;
+  transition: color var(--dur-micro) var(--ease-standard),
+              text-decoration-color var(--dur-micro) var(--ease-standard);
 }
 
-.footer-link:hover { color: var(--color-accent-hover); }
+.footer-link:hover {
+  color: var(--accent-blue-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-blue-border);
+}
 
 .footer-tagline {
   font-family: var(--font-mono);
@@ -943,14 +1070,14 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 var(--page-margin);
+  padding-inline: var(--page-margin);
 }
 
 .error-code {
   font-family: var(--font-mono);
   font-size: 15px;
   letter-spacing: 0.1em;
-  color: var(--color-accent-hover);
+  color: var(--accent-blue);
   margin-bottom: 24px;
 }
 
@@ -1002,7 +1129,7 @@ body {
    Focus states
    ------------------------------------------------------------------------- */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--accent-blue);
   outline-offset: 3px;
   transition: outline-offset 150ms var(--ease-standard);
 }
@@ -1027,7 +1154,7 @@ body {
    Hero (shared page hero used by Builds / Case Studies / Playground / Resume / Connect)
    ------------------------------------------------------------------------- */
 .page-hero {
-  padding: 180px 0 80px;
+  padding-block: 180px 80px;
   display: grid;
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: 64px;
@@ -1041,7 +1168,20 @@ body {
 .page-hero-meta .meta-panel { padding: 32px; }
 
 @media (max-width: 900px) {
-  .page-hero { grid-template-columns: 1fr; padding: 140px 0 56px; gap: 40px; }
+  .page-hero { grid-template-columns: 1fr; padding-block: 140px 56px; gap: 40px; }
+}
+
+/* Hero variant for pages with no metadata panel */
+.page-hero.is-full { grid-template-columns: 1fr; }
+
+/* Makes an entire card/row clickable via one CTA link, without nesting anchors.
+   Add position:relative to the clickable container and .stretched-link to its CTA. */
+.editorial-row, .timeline-card { position: relative; }
+.stretched-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 /* Home hero */
@@ -1051,12 +1191,12 @@ body {
   grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: 64px;
   align-items: center;
-  padding: 140px 0 80px;
+  padding-block: 140px 80px;
   position: relative;
 }
 
 @media (max-width: 900px) {
-  .home-hero { grid-template-columns: 1fr; min-height: auto; padding: 140px 0 96px; gap: 48px; }
+  .home-hero { grid-template-columns: 1fr; min-height: auto; padding-block: 140px 96px; gap: 48px; }
 }
 
 .home-hero-copy { display: flex; flex-direction: column; gap: 24px; min-width: 0; }

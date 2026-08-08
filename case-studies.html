@@ -16,9 +16,10 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo" aria-label="The Vasi Verse — Home">VH</a>
       <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line class="nav-toggle-line nav-toggle-line-top" x1="3" y1="6" x2="21" y2="6"/><line class="nav-toggle-line nav-toggle-line-mid" x1="3" y1="12" x2="21" y2="12"/><line class="nav-toggle-line nav-toggle-line-bottom" x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
       <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
         <a href="builds.html" class="nav-link">Builds</a>
         <a href="case-studies.html" class="nav-link is-active">Case Studies</a>
         <a href="playground.html" class="nav-link">Playground</a>
@@ -33,120 +34,49 @@
       <div class="page-hero-copy">
         <span class="eyebrow" data-hero-item style="--hero-delay:0ms">Case Studies</span>
         <h1 class="display-lg" data-hero-item style="--hero-delay:100ms">How I Think About Products.</h1>
-        <p class="body-lg" data-hero-item style="--hero-delay:200ms">Every case study begins with a question. Why does this product work? What could be improved? What would I build differently? Rather than critique products, I use them to practice structured product thinking.</p>
+        <p class="body-lg" data-hero-item style="--hero-delay:200ms">I use real products to practice the parts of my product work I enjoy most: finding the problem, understanding the user, making trade-offs, and deciding what to do next.</p>
       </div>
       <aside class="page-hero-meta" data-hero-item style="--hero-delay:300ms">
         <div class="meta-panel">
           <div class="meta-row">
             <span class="meta-label">Published</span>
-            <span class="meta-value mono">04</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Frameworks</span>
-            <span class="meta-value">RICE / JTBD / AARRR / North Star</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Last Updated</span>
-            <span class="meta-value mono">August 2026</span>
+            <span class="meta-value mono">03</span>
           </div>
         </div>
       </aside>
     </header>
 
-    <section class="container">
-      <article class="editorial-row" data-reveal>
-        <div class="editorial-media">
-          <img src="assets/case-studies/spotify.svg" alt="Abstract waveform and listening-activity visualization representing the Spotify case study" loading="lazy" width="800" height="600">
-        </div>
-        <div class="editorial-content">
-          <div class="pill-row">
-            <span class="chip chip-success">Featured</span>
-            <span class="chip">Spotify</span>
-          </div>
-          <h2 class="heading-1">Rethinking Music Discovery</h2>
-          <p class="body-base" style="max-width:100%;">Improving music discovery without increasing complexity. A product teardown exploring user retention, recommendation quality, playlist discovery, and engagement loops.</p>
-          <div class="meta-grid">
-            <div class="meta-grid-item"><span class="micro-label">Type</span><span class="body-small">Product Teardown</span></div>
-            <div class="meta-grid-item"><span class="micro-label">Role</span><span class="body-small">Independent PM</span></div>
-            <div class="meta-grid-item"><span class="micro-label">Framework</span><span class="body-small">JTBD / RICE</span></div>
-            <div class="meta-grid-item"><span class="micro-label">Status</span><span class="body-small">Published</span></div>
-          </div>
-          <div class="editorial-ctas">
-            <!-- TODO: replace with the Spotify case study Notion documentation URL -->
-            <a href="https://notion.so" target="_blank" rel="noopener" class="btn btn-primary">Read Case Study <span class="arrow">&rarr;</span></a>
-          </div>
-        </div>
-      </article>
-    </section>
-
     <section class="section container">
-      <div class="gateway-heading" data-reveal>
-        <h2 class="heading-1">All Case Studies</h2>
-      </div>
-
       <div class="small-card-grid">
-        <a class="card small-card" href="https://notion.so" target="_blank" rel="noopener" data-reveal>
-          <!-- TODO: replace with the Spotify case study Notion documentation URL -->
-          <div class="card-media"><img src="assets/case-studies/spotify.svg" alt="" loading="lazy" width="800" height="500"></div>
+        <!--
+          TODO: These three cards are placeholders. Notion is unreachable from the build
+          environment, so the real titles/descriptions for Case Study 1–3 couldn't be pulled in.
+          Replace the heading and paragraph below with the actual case study content —
+          the links already point to the correct Notion pages.
+        -->
+        <a class="card small-card" href="https://app.notion.com/p/Case-Study-1-3b45f901f4128057bb31d7590769ee55?source=copy_link" target="_blank" rel="noopener" data-reveal>
           <div class="card-body">
-            <span class="chip chip-success">Published</span>
-            <h3 class="heading-2">Rethinking Music Discovery</h3>
-            <p class="body-small">Retention, discovery, recommendation. <span class="micro-label">Spotify</span></p>
-            <div class="pill-row">
-              <span class="pill">JTBD</span><span class="pill">Retention</span><span class="pill">North Star</span>
-            </div>
+            <h3 class="heading-2">Case Study 01</h3>
+            <p class="body-small">Content pending — replace with the real title and summary.</p>
             <span class="btn-link" style="margin-top:auto;">Read Case Study <span class="arrow">&rarr;</span></span>
           </div>
         </a>
 
-        <a class="card small-card" href="https://notion.so" target="_blank" rel="noopener" data-reveal>
-          <!-- TODO: replace with the Blinkit case study Notion documentation URL -->
-          <div class="card-media"><img src="assets/case-studies/blinkit.svg" alt="" loading="lazy" width="800" height="500"></div>
+        <a class="card small-card" href="https://app.notion.com/p/Case-Study-2-3b45f901f412809bab12d8d5a119a093?source=copy_link" target="_blank" rel="noopener" data-reveal>
           <div class="card-body">
-            <span class="chip chip-success">Published</span>
-            <h3 class="heading-2">Beyond 10-Minute Delivery</h3>
-            <p class="body-small">Speed, convenience, expansion. <span class="micro-label">Blinkit</span></p>
-            <div class="pill-row">
-              <span class="pill">Marketplace</span><span class="pill">Operations</span><span class="pill">Growth</span>
-            </div>
+            <h3 class="heading-2">Case Study 02</h3>
+            <p class="body-small">Content pending — replace with the real title and summary.</p>
             <span class="btn-link" style="margin-top:auto;">Read Case Study <span class="arrow">&rarr;</span></span>
           </div>
         </a>
 
-        <a class="card small-card" href="https://notion.so" target="_blank" rel="noopener" data-reveal>
-          <!-- TODO: replace with the Uber case study Notion documentation URL -->
-          <div class="card-media"><img src="assets/case-studies/uber.svg" alt="" loading="lazy" width="800" height="500"></div>
+        <a class="card small-card" href="https://app.notion.com/p/Case-Study-3-3b45f901f41280b1bd50d994d380189a?source=copy_link" target="_blank" rel="noopener" data-reveal>
           <div class="card-body">
-            <span class="chip chip-accent">Published</span>
-            <h3 class="heading-2">Balancing a Two-Sided Marketplace</h3>
-            <p class="body-small">Pricing, marketplace, driver incentives. <span class="micro-label">Uber</span></p>
-            <div class="pill-row">
-              <span class="pill">Marketplace</span><span class="pill">Pricing</span><span class="pill">Growth</span>
-            </div>
+            <h3 class="heading-2">Case Study 03</h3>
+            <p class="body-small">Content pending — replace with the real title and summary.</p>
             <span class="btn-link" style="margin-top:auto;">Read Case Study <span class="arrow">&rarr;</span></span>
           </div>
         </a>
-
-        <a class="card small-card" href="https://notion.so" target="_blank" rel="noopener" data-reveal>
-          <!-- TODO: replace with the HootMe case study Notion documentation URL -->
-          <div class="card-media"><img src="assets/case-studies/hootme.svg" alt="" loading="lazy" width="800" height="500"></div>
-          <div class="card-body">
-            <span class="chip chip-accent">Published</span>
-            <h3 class="heading-2">Designing Network Effects for Real-World Communities</h3>
-            <p class="body-small">Communities, events, network effects. <span class="micro-label">HootMe</span></p>
-            <div class="pill-row">
-              <span class="pill">Activation</span><span class="pill">Retention</span><span class="pill">Community</span>
-            </div>
-            <span class="btn-link" style="margin-top:auto;">Read Case Study <span class="arrow">&rarr;</span></span>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <section class="section container" data-reveal>
-      <div class="gateway-heading">
-        <h2 class="heading-1">Why I Write Case Studies</h2>
-        <p class="body-base">Case studies allow me to practice structured product thinking outside commercial constraints. They help me improve my ability to identify problems, prioritize opportunities, evaluate trade-offs, and communicate decisions. Every study is documented like a real product team artifact.</p>
       </div>
     </section>
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Builds | The Vasi Verse</title>
-  <meta name="description" content="Products I've built, businesses I've scaled, and product decisions I've documented — StudioAI, Growth Alpha, and DotRyder.">
+  <meta name="description" content="Products I've built, businesses I've scaled, and product decisions I've documented — StudioAI, DotRyder, and Growth Alpha.">
   <link rel="icon" type="image/svg+xml" href="assets/shared/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,9 +16,10 @@
     <div class="nav-inner">
       <a href="index.html" class="nav-logo" aria-label="The Vasi Verse — Home">VH</a>
       <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line class="nav-toggle-line nav-toggle-line-top" x1="3" y1="6" x2="21" y2="6"/><line class="nav-toggle-line nav-toggle-line-mid" x1="3" y1="12" x2="21" y2="12"/><line class="nav-toggle-line nav-toggle-line-bottom" x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
       <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
         <a href="builds.html" class="nav-link is-active">Builds</a>
         <a href="case-studies.html" class="nav-link">Case Studies</a>
         <a href="playground.html" class="nav-link">Playground</a>
@@ -29,43 +30,23 @@
   </nav>
 
   <main>
-    <header class="page-hero container" data-hero="builds">
+    <header class="page-hero is-full container" data-hero="builds">
       <div class="page-hero-copy">
         <span class="eyebrow" data-hero-item style="--hero-delay:0ms">Builds</span>
         <h1 class="display-lg" data-hero-item style="--hero-delay:100ms">Products I've built. Businesses I've scaled. Problems I've solved.</h1>
-        <p class="body-lg" data-hero-item style="--hero-delay:200ms">Every build represents a different stage of my journey — from founding a marketing company, to validating an AI product, to consulting on product strategy.</p>
+        <p class="body-lg" data-hero-item style="--hero-delay:200ms">Real products, real users, and real problems I've had the chance to work on.</p>
       </div>
-      <aside class="page-hero-meta" data-hero-item style="--hero-delay:300ms">
-        <div class="meta-panel">
-          <div class="meta-row">
-            <span class="meta-label">Projects</span>
-            <span class="meta-value mono">03</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Documentation</span>
-            <span class="meta-value">Available</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Last Updated</span>
-            <span class="meta-value mono">August 2026</span>
-          </div>
-        </div>
-      </aside>
     </header>
 
-    <section class="container">
+    <section class="container builds-list">
 
       <article class="editorial-row" data-reveal>
-        <div class="editorial-media">
-          <img src="assets/builds/studioai.svg" alt="Abstract AI dashboard visualization representing StudioAI's creative asset pipeline" loading="lazy" width="800" height="600">
+        <div class="editorial-media is-logo">
+          <img src="assets/builds/StudioAI.png" alt="StudioAI logo" loading="lazy">
         </div>
         <div class="editorial-content">
-          <div class="pill-row">
-            <span class="chip">Founder Product</span>
-            <span class="chip chip-warning">Validated</span>
-          </div>
           <h2 class="heading-1">StudioAI</h2>
-          <p class="body-base" style="max-width:100%;">One product. Infinite marketing assets. An AI-powered platform exploring how marketing teams can generate and manage multi-channel creative assets from a single source of truth.</p>
+          <p class="body-base" style="max-width:100%;">An AI product exploring how marketing teams can create and manage multi-channel content from a single source of truth.</p>
           <div class="meta-grid">
             <div class="meta-grid-item"><span class="micro-label">Role</span><span class="body-small">Founder &amp; Product Manager</span></div>
             <div class="meta-grid-item"><span class="micro-label">Year</span><span class="body-small mono">2026</span></div>
@@ -75,59 +56,23 @@
           <div class="pill-row">
             <span class="pill">Customer Discovery</span>
             <span class="pill">MVP</span>
-            <span class="pill">AI Workflow</span>
+            <span class="pill">AI</span>
             <span class="pill">Research</span>
             <span class="pill">Product Strategy</span>
           </div>
           <div class="editorial-ctas">
-            <!-- TODO: replace with the StudioAI Notion documentation URL -->
-            <a href="https://notion.so" target="_blank" rel="noopener" class="btn btn-primary">View Documentation <span class="arrow">&rarr;</span></a>
+            <a href="https://app.notion.com/p/StudioAI-3b45f901f41280b389d1f9c2245761d6?source=copy_link" target="_blank" rel="noopener" class="btn btn-primary stretched-link">View Documentation <span class="arrow">&rarr;</span></a>
           </div>
         </div>
       </article>
 
       <article class="editorial-row is-reversed" data-reveal>
-        <div class="editorial-media">
-          <img src="assets/builds/growth-alpha.svg" alt="Abstract growth analytics dashboard visualization representing Growth Alpha" loading="lazy" width="800" height="600">
+        <div class="editorial-media is-logo">
+          <img src="assets/builds/DotRyder.png" alt="DotRyder logo" loading="lazy">
         </div>
         <div class="editorial-content">
-          <div class="pill-row">
-            <span class="chip">Founder Venture</span>
-            <span class="chip chip-success">Live</span>
-          </div>
-          <h2 class="heading-1">Growth Alpha</h2>
-          <p class="body-base" style="max-width:100%;">Scaling businesses through product thinking and storytelling. A founder-led digital marketing and product consulting company serving startups and businesses across education, healthcare, hospitality, fintech, mobility, and real estate.</p>
-          <div class="meta-grid">
-            <div class="meta-grid-item"><span class="micro-label">Role</span><span class="body-small">Co-Founder</span></div>
-            <div class="meta-grid-item"><span class="micro-label">Timeline</span><span class="body-small mono">2023 – Present</span></div>
-            <div class="meta-grid-item"><span class="micro-label">Clients</span><span class="body-small mono">20+ Engagements</span></div>
-            <div class="meta-grid-item"><span class="micro-label">Focus</span><span class="body-small">Growth</span></div>
-          </div>
-          <div class="pill-row">
-            <span class="pill">Growth Strategy</span>
-            <span class="pill">Analytics</span>
-            <span class="pill">Brand</span>
-            <span class="pill">Product</span>
-            <span class="pill">Leadership</span>
-          </div>
-          <div class="editorial-ctas">
-            <!-- TODO: replace with the Growth Alpha Notion documentation URL -->
-            <a href="https://notion.so" target="_blank" rel="noopener" class="btn btn-primary">View Documentation <span class="arrow">&rarr;</span></a>
-          </div>
-        </div>
-      </article>
-
-      <article class="editorial-row" data-reveal>
-        <div class="editorial-media">
-          <img src="assets/builds/dotryder.svg" alt="Abstract mobility route map visualization representing DotRyder" loading="lazy" width="800" height="600">
-        </div>
-        <div class="editorial-content">
-          <div class="pill-row">
-            <span class="chip">Consulting</span>
-            <span class="chip chip-accent">Completed</span>
-          </div>
           <h2 class="heading-1">DotRyder</h2>
-          <p class="body-base" style="max-width:100%;">Reimagining mobility for emerging markets. Worked with an emerging mobility platform to evaluate product positioning, customer experience, competitive landscape, and go-to-market strategy.</p>
+          <p class="body-base" style="max-width:100%;">Product strategy work for an emerging mobility platform, spanning customer journeys, competitive research, pricing, and go-to-market.</p>
           <div class="meta-grid">
             <div class="meta-grid-item"><span class="micro-label">Role</span><span class="body-small">Product Strategy Consultant</span></div>
             <div class="meta-grid-item"><span class="micro-label">Timeline</span><span class="body-small mono">2024 – 2025</span></div>
@@ -142,8 +87,33 @@
             <span class="pill">Feature Prioritization</span>
           </div>
           <div class="editorial-ctas">
-            <!-- TODO: replace with the DotRyder Notion documentation URL -->
-            <a href="https://notion.so" target="_blank" rel="noopener" class="btn btn-primary">View Documentation <span class="arrow">&rarr;</span></a>
+            <a href="https://app.notion.com/p/DotRyder-3b45f901f41280d0b593cd2a6b9c9ca2?source=copy_link" target="_blank" rel="noopener" class="btn btn-primary stretched-link">View Documentation <span class="arrow">&rarr;</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="editorial-row" data-reveal>
+        <div class="editorial-media is-logo">
+          <img src="assets/builds/GrowthAlpha.png" alt="Growth Alpha logo" loading="lazy">
+        </div>
+        <div class="editorial-content">
+          <h2 class="heading-1">Growth Alpha</h2>
+          <p class="body-base" style="max-width:100%;">Scaling businesses through product thinking and storytelling.</p>
+          <div class="meta-grid">
+            <div class="meta-grid-item"><span class="micro-label">Role</span><span class="body-small">Co-Founder</span></div>
+            <div class="meta-grid-item"><span class="micro-label">Timeline</span><span class="body-small mono">2023 – 2026</span></div>
+            <div class="meta-grid-item"><span class="micro-label">Output</span><span class="body-small mono">20+ Engagements</span></div>
+            <div class="meta-grid-item"><span class="micro-label">Focus</span><span class="body-small">Growth</span></div>
+          </div>
+          <div class="pill-row">
+            <span class="pill">Growth Strategy</span>
+            <span class="pill">Analytics</span>
+            <span class="pill">Brand</span>
+            <span class="pill">Product</span>
+            <span class="pill">Leadership</span>
+          </div>
+          <div class="editorial-ctas">
+            <a href="https://app.notion.com/p/Growth-Alpha-3b45f901f412800a8128ea1eef3a2596?source=copy_link" target="_blank" rel="noopener" class="btn btn-primary stretched-link">View Documentation <span class="arrow">&rarr;</span></a>
           </div>
         </div>
       </article>
