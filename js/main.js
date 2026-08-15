@@ -12,14 +12,34 @@
     el.textContent = new Date().getFullYear();
   });
 
-  /* Nav scroll state — transparent until scrolled, then blurred surface */
+  /* Unified scroll updater — nav background state + the home hero's
+     scroll-out (--hero-scroll custom property, read by CSS). One passive,
+     rAF-batched listener instead of several, so mobile scroll stays cheap.
+     Never calls preventDefault — native scrolling is left completely alone. */
   var nav = document.querySelector('.nav');
-  if (nav) {
-    var updateNavState = function () {
-      nav.classList.toggle('is-scrolled', window.scrollY > 8);
+  var homeHero = document.querySelector('.home-hero[data-hero]');
+  if (nav || (homeHero && !prefersReducedMotion)) {
+    var scrollTicking = false;
+    var updateOnScroll = function () {
+      if (nav) {
+        nav.classList.toggle('is-scrolled', window.scrollY > 8);
+      }
+      if (homeHero && !prefersReducedMotion) {
+        var heroHeight = homeHero.offsetHeight || 1;
+        var progress = -homeHero.getBoundingClientRect().top / heroHeight;
+        progress = Math.min(Math.max(progress, 0), 1);
+        homeHero.style.setProperty('--hero-scroll', progress.toFixed(3));
+      }
+      scrollTicking = false;
     };
-    updateNavState();
-    window.addEventListener('scroll', updateNavState, { passive: true });
+    var requestScrollUpdate = function () {
+      if (!scrollTicking) {
+        scrollTicking = true;
+        requestAnimationFrame(updateOnScroll);
+      }
+    };
+    updateOnScroll();
+    window.addEventListener('scroll', requestScrollUpdate, { passive: true });
   }
 
   /* Mobile nav toggle */
@@ -99,6 +119,127 @@
       var body = encodeURIComponent(message + (email ? '\n\n— ' + name + ' (' + email + ')' : '\n\n— ' + name));
       var mailto = contactForm.getAttribute('data-contact-form');
       window.location.href = mailto + '?subject=' + subject + '&body=' + body;
+    });
+  }
+
+  /* Flip cards — the 3D card turn (Builds / Playground). Desktop hover and
+     keyboard focus are handled entirely by CSS (:hover, :focus-within). Each
+     card carries a .flip-trigger button on both the front (flip in) and
+     back (flip out) so touch users always have a way back — a plain click
+     listener covers mouse, touch and keyboard alike, since a real <button>
+     gets Enter/Space activation for free. Both triggers on a card stay in
+     sync so their aria-pressed state never contradicts the visible face. */
+  document.querySelectorAll('.flip-card').forEach(function (card) {
+    var triggers = card.querySelectorAll('.flip-trigger');
+    triggers.forEach(function (trigger) {
+      trigger.addEventListener('click', function () {
+        var isFlipped = card.classList.toggle('is-flipped');
+        triggers.forEach(function (t) { t.setAttribute('aria-pressed', String(isFlipped)); });
+      });
+    });
+  });
+
+  /* Magnetic primary CTA — desktop, fine-pointer only. Reuses the button's
+     existing hover transition (var(--dur-micro)) for the smooth return. */
+  var supportsFineHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (!prefersReducedMotion && supportsFineHover) {
+    var MAGNETIC_MAX = 4; // px, per spec
+    document.querySelectorAll('.btn-primary').forEach(function (btn) {
+      btn.addEventListener('pointermove', function (event) {
+        if (event.pointerType && event.pointerType !== 'mouse') return;
+        var rect = btn.getBoundingClientRect();
+        var relX = (event.clientX - rect.left) / rect.width - 0.5;
+        var relY = (event.clientY - rect.top) / rect.height - 0.5;
+        var moveX = Math.max(Math.min(relX * 2 * MAGNETIC_MAX, MAGNETIC_MAX), -MAGNETIC_MAX);
+        var moveY = Math.max(Math.min(relY * 2 * MAGNETIC_MAX, MAGNETIC_MAX), -MAGNETIC_MAX);
+        btn.style.transitionDuration = '0ms';
+        btn.style.transform = 'translateY(-2px) translate(' + moveX.toFixed(2) + 'px, ' + moveY.toFixed(2) + 'px)';
+      });
+      btn.addEventListener('pointerleave', function () {
+        btn.style.transitionDuration = '';
+        btn.style.transform = '';
+      });
+    });
+  }
+
+  /* Electric cursor trail — desktop, fine-pointer only. A handful of small
+     dots lerp toward the pointer and fade out quickly when it stops or
+     leaves the document. Created lazily; nothing is added to the DOM at
+     all on touch/coarse-pointer/reduced-motion so mobile pays no cost. */
+  if (!prefersReducedMotion && supportsFineHover && 'requestAnimationFrame' in window) {
+    var TRAIL_COUNT = 5;
+    var TRAIL_EASE = 0.35;
+    var IDLE_MS = 150;
+
+    var dots = [];
+    for (var i = 0; i < TRAIL_COUNT; i++) {
+      var dot = document.createElement('span');
+      dot.className = 'cursor-trail';
+      dot.setAttribute('aria-hidden', 'true');
+      var scale = 1 - i / TRAIL_COUNT;
+      dot.style.width = (4 + scale * 4).toFixed(1) + 'px';
+      dot.style.height = dot.style.width;
+      dot.style.opacity = '0';
+      document.body.appendChild(dot);
+      dots.push({ el: dot, x: 0, y: 0, targetOpacity: 0, baseOpacity: 0.45 * scale + 0.08 });
+    }
+
+    var pointerX = null;
+    var pointerY = null;
+    var lastMoveTime = 0;
+    var trailActive = false;
+
+    var startTrailLoop = function () {
+      if (trailActive) return;
+      trailActive = true;
+      requestAnimationFrame(stepTrail);
+    };
+
+    function stepTrail() {
+      var now = performance.now();
+      var idle = pointerX === null || now - lastMoveTime > IDLE_MS;
+
+      var leaderX = pointerX;
+      var leaderY = pointerY;
+      for (var j = 0; j < dots.length; j++) {
+        var d = dots[j];
+        if (leaderX !== null) {
+          d.x += (leaderX - d.x) * TRAIL_EASE;
+          d.y += (leaderY - d.y) * TRAIL_EASE;
+          d.el.style.transform = 'translate3d(' + d.x.toFixed(1) + 'px, ' + d.y.toFixed(1) + 'px, 0)';
+        }
+        d.el.style.opacity = idle ? '0' : String(d.baseOpacity);
+        leaderX = d.x;
+        leaderY = d.y;
+      }
+
+      if (idle && pointerX === null) {
+        trailActive = false;
+        return;
+      }
+      requestAnimationFrame(stepTrail);
+    }
+
+    document.addEventListener('pointermove', function (event) {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      lastMoveTime = performance.now();
+      startTrailLoop();
+    }, { passive: true });
+
+    document.addEventListener('pointerleave', function () {
+      pointerX = null;
+      pointerY = null;
+      dots.forEach(function (d) { d.el.style.opacity = '0'; });
+    });
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        pointerX = null;
+        pointerY = null;
+        dots.forEach(function (d) { d.el.style.opacity = '0'; });
+      }
     });
   }
 })();

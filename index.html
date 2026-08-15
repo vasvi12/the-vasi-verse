@@ -31,8 +31,8 @@
 
   <main>
     <header class="home-hero container" data-hero="home">
-      <div class="home-hero-copy">
-        <p class="body-lg" data-hero-item style="--hero-delay:0ms"><strong>Hi, I'm Vasavi.</strong> I'm a founder and product manager. I enjoy understanding people as much as building products, and I'm curious by nature. I like asking questions, and I love turning ideas into things people can actually use.</p>
+      <div class="home-hero-copy" data-hero-scroll-target>
+        <p class="body-lg" data-hero-item data-hero-dir="left" style="--hero-delay:0ms"><strong>Hi, I'm Vasavi.</strong> I'm a founder and product manager. I enjoy understanding people as much as building products, and I'm curious by nature. I like asking questions, and I love turning ideas into things people can actually use.</p>
         <p class="body-lg" data-hero-item style="--hero-delay:100ms">This website is a collection of what I've built, the product decisions behind it, and the experiments that continue to shape how I think.</p>
         <p class="body-lg" data-hero-item style="--hero-delay:200ms">Most days you'll find me talking to users or founders, sketching product ideas, or building the next version of something I'm curious about.</p>
         <div class="home-hero-ctas" data-hero-item style="--hero-delay:300ms">
@@ -41,28 +41,30 @@
         </div>
       </div>
 
-      <aside class="page-hero-meta" data-hero-item style="--hero-delay:400ms">
-        <span class="micro-label">Product Overview</span>
-        <div class="meta-panel" style="margin-top: 24px;">
-          <div class="meta-row">
-            <span class="meta-label">Built by</span>
-            <span class="meta-value">Vasavi Hegde</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Currently</span>
-            <span class="meta-value">Founder &middot; Product Manager</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Status</span>
-            <span class="meta-value"><span class="status-dot"></span>Active Development</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Version</span>
-            <span class="meta-value mono">v1.0</span>
-          </div>
-          <div class="meta-row">
-            <span class="meta-label">Location</span>
-            <span class="meta-value">Bangalore, India</span>
+      <aside class="page-hero-meta" data-hero-scroll-target>
+        <div data-hero-item data-hero-dir="right" style="--hero-delay:400ms">
+          <span class="micro-label">Product Overview</span>
+          <div class="meta-panel" style="margin-top: 24px;">
+            <div class="meta-row">
+              <span class="meta-label">Built by</span>
+              <span class="meta-value">Vasavi Hegde</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Currently</span>
+              <span class="meta-value">Founder &middot; Product Manager</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Status</span>
+              <span class="meta-value"><span class="status-dot"></span>Active Development</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Version</span>
+              <span class="meta-value mono">v1.0</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-label">Location</span>
+              <span class="meta-value">Bangalore, India</span>
+            </div>
           </div>
         </div>
       </aside>
@@ -71,7 +73,7 @@
     </header>
 
     <section class="section container" id="work">
-      <div class="gateway-heading" data-reveal>
+      <div class="gateway-heading" data-reveal="heading">
         <h2 class="heading-1">Explore My Work</h2>
         <p class="body-base">This is how I think, build, and learn.</p>
       </div>

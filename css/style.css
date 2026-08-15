@@ -298,11 +298,15 @@ body {
   transition: transform var(--dur-micro) var(--ease-standard);
 }
 
-.nav-link:hover { color: var(--color-text-primary); }
+.nav-link:hover { color: var(--color-text-primary); transform: translateY(-1px); }
 .nav-link:hover::after { transform: scaleX(1); }
 
 .nav-link.is-active { color: var(--color-text-primary); }
-.nav-link.is-active::after { transform: scaleX(1); }
+.nav-link.is-active::after {
+  transform: scaleX(1);
+  height: 2px;
+  box-shadow: 0 0 8px 0 var(--accent-blue-border);
+}
 
 /* Spotlight hover — desktop only. Hovering the nav dims every link except
    the one under the cursor, which lifts slightly and picks up the accent. */
@@ -534,6 +538,8 @@ body {
    Cards — shared product/case-study/playground card system
    ------------------------------------------------------------------------- */
 .card {
+  position: relative;
+  overflow: hidden;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -552,6 +558,33 @@ body {
   border-color: var(--accent-blue-border);
   background: var(--color-elevated);
   box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+/* Tap press feedback — the only motion feedback touch devices get, since
+   they have no hover. Quick and gentle, distinct from the desktop lift. */
+.card:active {
+  transform: translateY(-2px) scale(0.99);
+  transition-duration: var(--dur-micro);
+}
+
+/* Shine sweep — a single soft diagonal highlight passes over the card on
+   hover/tap. Used on cards that don't flip (homepage gateway cards, Case
+   Studies placeholders) so they still feel tactile without an empty back
+   face. Purely decorative, so it's skipped for flip cards (they already
+   have their own physical motion) via the :not() below. */
+.card:not(.flip-card)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 42%, rgba(127, 179, 255, 0.12) 50%, transparent 58%);
+  transform: translateX(-120%);
+  pointer-events: none;
+  transition: transform var(--dur-card) var(--ease-standard);
+}
+
+.card:not(.flip-card):hover::after,
+.card:not(.flip-card):active::after {
+  transform: translateX(120%);
 }
 
 /* Spotlight — hovering the group dims every card except the one under the cursor */
@@ -641,7 +674,7 @@ body {
 .editorial-row:last-child { border-bottom: none; }
 
 .editorial-row.is-reversed .editorial-media { order: 2; }
-.editorial-row.is-reversed .editorial-content { order: 1; }
+.editorial-row.is-reversed .flip-card { order: 1; }
 
 .editorial-row:hover {
   transform: translateY(-6px) scale(1.01);
@@ -704,12 +737,12 @@ body {
 
 .meta-grid-item { display: flex; flex-direction: column; gap: 4px; }
 
-.editorial-ctas { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+.editorial-ctas { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
 
 @media (max-width: 900px) {
   .editorial-row { grid-template-columns: 1fr; gap: 32px; padding: 64px 24px; }
   .editorial-row.is-reversed .editorial-media { order: 1; }
-  .editorial-row.is-reversed .editorial-content { order: 2; }
+  .editorial-row.is-reversed .flip-card { order: 2; }
 }
 
 /* Small grid cards (Case Studies grid, Playground cards, Connect cards) */
@@ -730,6 +763,116 @@ body {
 }
 
 .small-card .card-media { aspect-ratio: 16 / 10; }
+
+/* -------------------------------------------------------------------------
+   Flip cards — the 3D card turn (Builds content pane, Playground timeline
+   card). Front/back are stacked in the same CSS Grid cell so the container
+   height always matches the taller face, with no JS measurement needed.
+   Desktop: hover or keyboard focus turns the card. Touch: the .flip-trigger
+   button (always present, works for mouse/keyboard/touch alike) toggles a
+   persistent .is-flipped class via js/main.js.
+   ------------------------------------------------------------------------- */
+.flip-card {
+  perspective: 1600px;
+  transition: transform var(--dur-scroll) var(--ease-standard);
+}
+
+.flip-card:hover,
+.flip-card:focus-within,
+.flip-card.is-flipped {
+  transform: translateY(-3px);
+}
+
+.flip-card-inner {
+  position: relative;
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform var(--dur-scroll) var(--ease-standard);
+}
+
+.flip-card:hover .flip-card-inner,
+.flip-card:focus-within .flip-card-inner,
+.flip-card.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  grid-area: 1 / 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* Faces reuse .editorial-content / .timeline-card for their existing visual
+   styling (padding, background, borders) — their own standalone :hover
+   effects are neutralized here since .flip-card now owns the hover motion.
+   Each rule re-asserts its face's own resting transform (front: none, back:
+   rotateY(180deg)) at higher specificity than .timeline-card:hover — without
+   that, .timeline-card's own hover-lift would override the back face's
+   rotation and leave it permanently facing the viewer instead of hidden. */
+.flip-card-front.timeline-card,
+.flip-card-front.timeline-card:hover {
+  transform: none;
+  cursor: default;
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  box-shadow: none;
+  height: 100%;
+}
+
+.flip-card-back.timeline-card,
+.flip-card-back.timeline-card:hover {
+  transform: rotateY(180deg);
+  cursor: default;
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  box-shadow: none;
+  height: 100%;
+}
+
+.flip-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-top: 4px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-blue-border);
+  background: var(--accent-blue-bg);
+  color: var(--accent-blue-soft);
+  font-size: 16px;
+  line-height: 1;
+  opacity: 0.75;
+  transition: opacity var(--dur-micro) var(--ease-standard),
+              background var(--dur-micro) var(--ease-standard),
+              color var(--dur-micro) var(--ease-standard),
+              transform var(--dur-micro) var(--ease-standard);
+}
+
+.flip-trigger:hover,
+.flip-trigger:focus-visible {
+  opacity: 1;
+  background: var(--accent-blue-border);
+  color: var(--color-text-primary);
+}
+
+.flip-trigger:active { transform: scale(0.92); }
+
+/* Desktop already reveals the back on hover, so the trigger is a quiet
+   keyboard-accessible affordance there; on touch it's the primary control. */
+@media (hover: hover) and (pointer: fine) {
+  .flip-trigger { opacity: 0.45; }
+  .flip-trigger:hover, .flip-trigger:focus-visible { opacity: 1; }
+}
 
 /* -------------------------------------------------------------------------
    Contact cards (Connect page)
@@ -1111,10 +1254,52 @@ body {
   transform: translateY(0);
 }
 
-/* Hero entrance — staggered via inline delay custom property */
+/* Stronger editorial reveal for major section headings — horizontal travel
+   + a soft clip mask instead of the quiet vertical fade used everywhere
+   else. Reuses .gateway-heading, the shared heading wrapper across pages. */
+[data-reveal="heading"] {
+  transform: translateX(-24px);
+  clip-path: inset(0 0 0 8%);
+  transition: opacity var(--dur-scroll) var(--ease-out),
+              transform var(--dur-scroll) var(--ease-out),
+              clip-path var(--dur-scroll) var(--ease-out);
+}
+
+[data-reveal="heading"].is-visible {
+  transform: translateX(0);
+  clip-path: inset(0 0 0 0);
+}
+
+/* Hero entrance — staggered via inline delay custom property.
+   Default items fade + move up 8px. Items marked data-hero-dir="left|right"
+   additionally travel horizontally and reveal from under a soft clip mask —
+   used only for the headline (left) and Product Overview (right) per the
+   editorial entrance sequence. */
 [data-hero-item] {
   opacity: 0;
-  transform: translateY(8px);
+  transform: translate3d(var(--hero-x, 0), var(--hero-y, 8px), 0);
+  clip-path: var(--hero-clip, inset(0 0 0 0));
+}
+
+[data-hero-item][data-hero-dir="left"] {
+  --hero-x: -28px;
+  --hero-y: 0px;
+  --hero-clip: inset(0 0 0 10%);
+}
+
+[data-hero-item][data-hero-dir="right"] {
+  --hero-x: 28px;
+  --hero-y: 0px;
+  --hero-clip: inset(0 10% 0 0);
+}
+
+/* Below 640px the hero stacks to a single column and --page-margin shrinks,
+   so the full 28px horizontal travel can briefly exceed the available edge
+   space before the stagger delay starts. Motion.md calls for ~30% less
+   movement on mobile anyway — this satisfies both at once. */
+@media (max-width: 640px) {
+  [data-hero-item][data-hero-dir="left"] { --hero-x: -16px; --hero-clip: inset(0 0 0 6%); }
+  [data-hero-item][data-hero-dir="right"] { --hero-x: 16px; --hero-clip: inset(0 6% 0 0); }
 }
 
 .hero-ready [data-hero-item] {
@@ -1123,7 +1308,41 @@ body {
 }
 
 @keyframes hero-fade-up {
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); clip-path: inset(0 0 0 0); }
+}
+
+/* Hero scroll-out — driven by a scroll-linked custom property (--hero-scroll,
+   0 to 1) set in js/main.js via a passive, rAF-batched scroll listener. Pure
+   function of scroll position, no animation/transition timing, so it never
+   fights native scrolling and always tracks 1:1 with the user's gesture. */
+.home-hero { --hero-scroll: 0; }
+
+[data-hero-scroll-target] {
+  transform: translateY(calc(var(--hero-scroll, 0) * -36px));
+  opacity: calc(1 - (var(--hero-scroll, 0) * 0.85));
+  will-change: transform, opacity;
+}
+
+/* -------------------------------------------------------------------------
+   Electric cursor trail — desktop only, created lazily by js/main.js only
+   when (hover: hover) and (pointer: fine) and no reduced-motion preference.
+   A handful of small dots lerp toward the pointer and fade quickly.
+   ------------------------------------------------------------------------- */
+.cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-blue-soft);
+  box-shadow: 0 0 6px 1px rgba(127, 179, 255, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate3d(-50%, -50%, 0);
+  transition: opacity 250ms var(--ease-standard);
+  will-change: transform, opacity;
 }
 
 /* -------------------------------------------------------------------------
@@ -1146,9 +1365,37 @@ body {
     scroll-behavior: auto !important;
   }
 
-  [data-reveal] { opacity: 1; transform: none; }
-  [data-hero-item] { opacity: 1; transform: none; }
+  [data-reveal] { opacity: 1; transform: none; clip-path: none; }
+  [data-hero-item] { opacity: 1; transform: none; clip-path: none; }
+  [data-hero-scroll-target] { transform: none; opacity: 1; }
   .scroll-indicator { animation: none; }
+
+  /* Large 3D rotation and cursor-tracking effects are motion for its own
+     sake — remove them entirely rather than just speeding them up. The flip
+     becomes an instant content swap (front/back) instead of a rotation. */
+  .flip-card-inner { transform: none !important; }
+  .flip-card:hover, .flip-card:focus-within, .flip-card.is-flipped { transform: none; }
+
+  .flip-card-front { position: static; }
+  .flip-card-back { position: static; visibility: hidden; height: 0; overflow: hidden; }
+
+  .flip-card:hover .flip-card-front,
+  .flip-card:focus-within .flip-card-front,
+  .flip-card.is-flipped .flip-card-front {
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .flip-card:hover .flip-card-back,
+  .flip-card:focus-within .flip-card-back,
+  .flip-card.is-flipped .flip-card-back {
+    visibility: visible;
+    height: auto;
+    overflow: visible;
+  }
+
+  .cursor-trail { display: none !important; }
 }
 
 /* -------------------------------------------------------------------------
