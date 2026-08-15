@@ -552,8 +552,11 @@ body {
               filter var(--dur-card) var(--ease-standard);
 }
 
-.card:hover,
-.card:focus-visible {
+/* :not(.flip-card-front):not(.flip-card-back) throughout this rule keeps it
+   from fighting the flip system's own transform on cards used as a flip
+   face (Home gateway cards, Case Studies) — see the Flip cards section. */
+.card:not(.flip-card-front):not(.flip-card-back):hover,
+.card:not(.flip-card-front):not(.flip-card-back):focus-visible {
   transform: translateY(-6px) scale(1.02);
   border-color: var(--accent-blue-border);
   background: var(--color-elevated);
@@ -562,17 +565,15 @@ body {
 
 /* Tap press feedback — the only motion feedback touch devices get, since
    they have no hover. Quick and gentle, distinct from the desktop lift. */
-.card:active {
+.card:not(.flip-card-front):not(.flip-card-back):active {
   transform: translateY(-2px) scale(0.99);
   transition-duration: var(--dur-micro);
 }
 
 /* Shine sweep — a single soft diagonal highlight passes over the card on
-   hover/tap. Used on cards that don't flip (homepage gateway cards, Case
-   Studies placeholders) so they still feel tactile without an empty back
-   face. Purely decorative, so it's skipped for flip cards (they already
-   have their own physical motion) via the :not() below. */
-.card:not(.flip-card)::after {
+   hover/tap. Only used on cards that aren't flip faces — flip cards already
+   have their own physical motion. */
+.card:not(.flip-card-front):not(.flip-card-back)::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -582,20 +583,26 @@ body {
   transition: transform var(--dur-card) var(--ease-standard);
 }
 
-.card:not(.flip-card):hover::after,
-.card:not(.flip-card):active::after {
+.card:not(.flip-card-front):not(.flip-card-back):hover::after,
+.card:not(.flip-card-front):not(.flip-card-back):active::after {
   transform: translateX(120%);
 }
 
-/* Spotlight — hovering the group dims every card except the one under the cursor */
+/* Spotlight — hovering the group dims every card except the one under the
+   cursor. .flip-card is included since flip cards are the grid's direct
+   child now (the .card styling lives one level deeper, on each face). */
 .card-grid:hover > .card,
-.small-card-grid:hover > .card {
+.card-grid:hover > .flip-card,
+.small-card-grid:hover > .card,
+.small-card-grid:hover > .flip-card {
   opacity: 0.5;
   filter: saturate(0.85);
 }
 
 .card-grid:hover > .card:hover,
-.small-card-grid:hover > .card:hover {
+.card-grid:hover > .flip-card:hover,
+.small-card-grid:hover > .card:hover,
+.small-card-grid:hover > .flip-card:hover {
   opacity: 1;
   filter: none;
 }
@@ -654,33 +661,20 @@ body {
 .gateway-card .card-media { aspect-ratio: 4 / 3; }
 .gateway-card .card-body { display: flex; flex-direction: column; gap: 14px; flex: 1; }
 
-/* Alternating editorial rows (Builds / Case Studies) */
+/* Alternating editorial rows (Builds / Case Studies). Each row wraps a
+   single .flip-card — the whole thing (logo included) physically turns, so
+   the row itself is just padding/border; the 2-column media|content grid
+   lives on .flip-card-front (see .flip-card--row below), and .flip-card
+   owns the hover lift so the row no longer sets its own transform. */
 .editorial-row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 64px;
-  align-items: center;
   padding: 96px 40px;
   border-bottom: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
-  cursor: pointer;
-  transition: transform var(--dur-card) var(--ease-standard),
-              box-shadow var(--dur-card) var(--ease-standard),
-              background var(--dur-card) var(--ease-standard),
-              opacity var(--dur-card) var(--ease-standard),
+  transition: opacity var(--dur-card) var(--ease-standard),
               filter var(--dur-card) var(--ease-standard);
 }
 
 .editorial-row:last-child { border-bottom: none; }
-
-.editorial-row.is-reversed .editorial-media { order: 2; }
-.editorial-row.is-reversed .flip-card { order: 1; }
-
-.editorial-row:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: var(--shadow-lg), var(--shadow-glow);
-  background: var(--color-surface);
-}
 
 /* Spotlight — hovering the list dims every build except the one under the cursor */
 .builds-list:hover > .editorial-row { opacity: 0.5; filter: saturate(0.85); }
@@ -729,6 +723,20 @@ body {
 
 .editorial-content { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
 
+/* The Builds row's flip front holds the media + content side by side —
+   this is where the row's old 2-column grid moved to, now that the row
+   itself wraps a single .flip-card. The back reuses .editorial-content's
+   own flex-column layout at full row width (no media there to pair with). */
+.flip-card--row .flip-card-front {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 64px;
+  align-items: center;
+}
+
+.editorial-row.is-reversed .flip-card-front .editorial-media { order: 2; }
+.editorial-row.is-reversed .flip-card-front .editorial-content { order: 1; }
+
 .meta-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -740,9 +748,10 @@ body {
 .editorial-ctas { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
 
 @media (max-width: 900px) {
-  .editorial-row { grid-template-columns: 1fr; gap: 32px; padding: 64px 24px; }
-  .editorial-row.is-reversed .editorial-media { order: 1; }
-  .editorial-row.is-reversed .flip-card { order: 2; }
+  .editorial-row { padding: 64px 24px; }
+  .flip-card--row .flip-card-front { grid-template-columns: 1fr; gap: 32px; }
+  .editorial-row.is-reversed .flip-card-front .editorial-media { order: 1; }
+  .editorial-row.is-reversed .flip-card-front .editorial-content { order: 2; }
 }
 
 /* Small grid cards (Case Studies grid, Playground cards, Connect cards) */
@@ -763,6 +772,7 @@ body {
 }
 
 .small-card .card-media { aspect-ratio: 16 / 10; }
+.small-card .card-body { display: flex; flex-direction: column; gap: 14px; flex: 1; }
 
 /* -------------------------------------------------------------------------
    Flip cards — the 3D card turn (Builds content pane, Playground timeline
@@ -773,8 +783,14 @@ body {
    persistent .is-flipped class via js/main.js.
    ------------------------------------------------------------------------- */
 .flip-card {
-  perspective: 1600px;
-  transition: transform var(--dur-scroll) var(--ease-standard);
+  perspective: 2000px;
+  transition: transform var(--dur-hero) var(--ease-out);
+}
+
+/* Builds rows are much wider than the compact cards elsewhere, so a larger
+   perspective keeps the turn from skewing too sharply at the edges. */
+.flip-card--row {
+  perspective: 3400px;
 }
 
 .flip-card:hover,
@@ -787,7 +803,7 @@ body {
   position: relative;
   display: grid;
   transform-style: preserve-3d;
-  transition: transform var(--dur-scroll) var(--ease-standard);
+  transition: transform var(--dur-hero) var(--ease-out);
 }
 
 .flip-card:hover .flip-card-inner,
@@ -811,30 +827,16 @@ body {
   transform: rotateY(180deg);
 }
 
-/* Faces reuse .editorial-content / .timeline-card for their existing visual
-   styling (padding, background, borders) — their own standalone :hover
-   effects are neutralized here since .flip-card now owns the hover motion.
-   Each rule re-asserts its face's own resting transform (front: none, back:
-   rotateY(180deg)) at higher specificity than .timeline-card:hover — without
-   that, .timeline-card's own hover-lift would override the back face's
-   rotation and leave it permanently facing the viewer instead of hidden. */
+/* Faces reuse .editorial-content / .timeline-card / .card for their existing
+   visual styling (padding, background, borders). Each of those components'
+   own :hover rules is written with :not(.flip-card-front):not(.flip-card-back)
+   so it never fires here — .flip-card owns the hover motion instead. This
+   just fills the shared grid cell to the taller face's height. */
 .flip-card-front.timeline-card,
-.flip-card-front.timeline-card:hover {
-  transform: none;
-  cursor: default;
-  border-color: var(--color-border);
-  background: var(--color-surface);
-  box-shadow: none;
-  height: 100%;
-}
-
 .flip-card-back.timeline-card,
-.flip-card-back.timeline-card:hover {
-  transform: rotateY(180deg);
+.flip-card-front.card,
+.flip-card-back.card {
   cursor: default;
-  border-color: var(--color-border);
-  background: var(--color-surface);
-  box-shadow: none;
   height: 100%;
 }
 
@@ -993,7 +995,7 @@ body {
               box-shadow var(--dur-card) var(--ease-standard);
 }
 
-.timeline-card:hover {
+.timeline-card:not(.flip-card-front):not(.flip-card-back):hover {
   border-color: var(--accent-blue-border);
   background: var(--color-elevated);
   transform: translateY(-6px) scale(1.01);
@@ -1376,23 +1378,29 @@ body {
   .flip-card-inner { transform: none !important; }
   .flip-card:hover, .flip-card:focus-within, .flip-card.is-flipped { transform: none; }
 
+  /* !important is required here: .flip-card-front/back.card and
+     .timeline-card carry their own height:100% (specificity 0,2,0) so the
+     content swap can fill the shared grid cell in normal motion — without
+     !important that rule would beat this block's plain-class height:0/auto
+     swap (0,1,0) and leave the back face permanently full-height (and, via
+     hit-testing, blocking clicks on the front face's own controls). */
   .flip-card-front { position: static; }
-  .flip-card-back { position: static; visibility: hidden; height: 0; overflow: hidden; }
+  .flip-card-back { position: static; visibility: hidden !important; height: 0 !important; overflow: hidden !important; }
 
   .flip-card:hover .flip-card-front,
   .flip-card:focus-within .flip-card-front,
   .flip-card.is-flipped .flip-card-front {
-    visibility: hidden;
-    height: 0;
-    overflow: hidden;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
   }
 
   .flip-card:hover .flip-card-back,
   .flip-card:focus-within .flip-card-back,
   .flip-card.is-flipped .flip-card-back {
-    visibility: visible;
-    height: auto;
-    overflow: visible;
+    visibility: visible !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .cursor-trail { display: none !important; }
