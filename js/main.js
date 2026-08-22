@@ -139,6 +139,29 @@
     });
   });
 
+  /* Whole-card click-through (Builds rows, Case Studies cards) — clicking
+     anywhere on a [data-card-href] card opens its destination, without
+     wrapping the card (which already contains a real CTA link and flip
+     buttons) in a nested <a>. Clicks that land on an actual link/button —
+     the CTA itself, or a flip-trigger — are left alone so those keep their
+     own native/toggle behavior instead of double-firing. A text selection
+     in progress also skips navigation, so selecting the description text
+     doesn't accidentally trigger it. */
+  document.querySelectorAll('[data-card-href]').forEach(function (card) {
+    card.addEventListener('click', function (event) {
+      if (event.target.closest('a, button')) return;
+      var selection = window.getSelection();
+      if (selection && selection.type === 'Range') return;
+      var url = card.getAttribute('data-card-href');
+      var target = card.getAttribute('data-card-target');
+      if (target) {
+        window.open(url, target, 'noopener');
+      } else {
+        window.location.href = url;
+      }
+    });
+  });
+
   /* Magnetic primary CTA — desktop, fine-pointer only. Reuses the button's
      existing hover transition (var(--dur-micro)) for the smooth return. */
   var supportsFineHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;

@@ -661,6 +661,11 @@ body {
 .gateway-card .card-media { aspect-ratio: 4 / 3; }
 .gateway-card .card-body { display: flex; flex-direction: column; gap: 14px; flex: 1; }
 
+/* Whole-card click-through (Builds rows, Case Studies cards) — the actual
+   navigation is handled in js/main.js via [data-card-href]; this just
+   signals the whole card is clickable, not only its CTA. */
+[data-card-href] { cursor: pointer; }
+
 /* Alternating editorial rows (Builds / Case Studies). Each row wraps a
    single .flip-card — the whole thing (logo included) physically turns, so
    the row itself is just padding/border; the 2-column media|content grid
