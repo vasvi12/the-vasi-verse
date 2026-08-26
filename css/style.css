@@ -455,6 +455,28 @@ body {
   padding: 40px;
 }
 
+/* Photo slot (Product Overview) — square, ~260px on desktop, scales down
+   with the panel on smaller screens. Reuses existing surface/border tokens
+   so an empty slot (no photo yet) still reads as intentional, not broken.
+   The <img> removes itself on error, leaving just this styled square. */
+.meta-photo {
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto 28px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-elevated);
+  border: 1px solid var(--color-border);
+}
+
+.meta-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .meta-row {
   display: flex;
   justify-content: space-between;

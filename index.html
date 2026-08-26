@@ -32,7 +32,7 @@
   <main>
     <header class="home-hero container" data-hero="home">
       <div class="home-hero-copy" data-hero-scroll-target>
-        <p class="body-lg" data-hero-item data-hero-dir="left" style="--hero-delay:0ms"><strong>I like figuring out why people do what they do — then building something about it.</strong></p>
+        <p class="body-lg" data-hero-item data-hero-dir="left" style="--hero-delay:0ms"><strong>I like figuring out why people do what they do, then building something about it.</strong></p>
         <p class="body-lg" data-hero-item style="--hero-delay:100ms">I'm Vasavi, a founder and product manager who tends to move between user conversations, messy ideas, product strategy and actually making things.</p>
         <p class="body-lg" data-hero-item style="--hero-delay:200ms">This is where I document what I've built, what I've learned, and the questions I'm still trying to answer.</p>
         <div class="home-hero-ctas" data-hero-item style="--hero-delay:300ms">
@@ -45,13 +45,17 @@
         <div data-hero-item data-hero-dir="right" style="--hero-delay:400ms">
           <span class="micro-label">Product Overview</span>
           <div class="meta-panel" style="margin-top: 24px;">
+            <!-- TODO: add the real photo at assets/shared/profile-photo.jpg — this slot already renders it square, cropped, at ~260px on desktop. -->
+            <div class="meta-photo">
+              <img src="assets/shared/profile-photo.jpg" alt="Vasavi Hegde" loading="lazy" onerror="this.remove()">
+            </div>
             <div class="meta-row">
               <span class="meta-label">Name</span>
               <span class="meta-value">Vasavi Hegde</span>
             </div>
             <div class="meta-row">
               <span class="meta-label">Looking For</span>
-              <span class="meta-value">APM / PM Roles</span>
+              <span class="meta-value">APM / Product Manager Roles</span>
             </div>
             <div class="meta-row">
               <span class="meta-label">Version</span>
@@ -156,7 +160,7 @@
     </section>
 
     <footer class="footer container" data-reveal>
-      <p class="footer-statement">If you're building something worth talking about, let's talk.</p>
+      <p class="footer-statement">If you're building something interesting, I'd love to hear about it.</p>
       <div class="home-hero-ctas" style="justify-content:center; margin-bottom: 40px;">
         <a href="connect.html" class="btn btn-primary">Connect</a>
       </div>
