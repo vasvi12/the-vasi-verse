@@ -1121,7 +1121,7 @@ body {
   .quick-facts-grid { grid-template-columns: 1fr; }
 }
 
-.fact-item { display: flex; flex-direction: column; gap: 6px; }
+.fact-item { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; }
 
 /* -------------------------------------------------------------------------
    Contact form
