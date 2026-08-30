@@ -141,39 +141,86 @@
   });
 
   /* Mobile equivalent of the desktop hover-flip: on touch/coarse-pointer
-     devices there's no hover, so each clickable flip card flips once,
-     naturally, as it meaningfully enters the viewport while scrolling —
-     then stops being observed, so it never re-flips on scrolling back up
-     or down past it again. Desktop (fine hover) and reduced-motion both
-     skip this entirely and keep their existing behavior untouched. */
+     devices there's no hover, so each clickable flip card cycles between its
+     front and back on its own — but only while it's substantially visible,
+     never merely brushing the edge of the viewport. A card must clear
+     VISIBILITY_THRESHOLD before it's considered "on screen" at all, so the
+     user always sees the front (title included) before anything moves; a
+     short INITIAL_DELAY_MS then holds the front a moment longer before the
+     first flip, and every flip after that (either direction) waits
+     CYCLE_DELAY_MS (~5s), matching the desktop hover/unhover rhythm at a
+     human pace instead of a hard toggle. Leaving the visibility threshold
+     stops the cycle and its timer immediately and returns the card to its
+     front face, so nothing keeps animating off-screen and re-entering
+     always starts clean. A manual tap on a card's own flip-trigger hands
+     that card fully back to the user — the cycle never touches it again.
+     Desktop (fine hover) and reduced-motion both skip this entirely. */
   if (!supportsFineHover && !prefersReducedMotion && 'IntersectionObserver' in window) {
+    var VISIBILITY_THRESHOLD = 0.6;
+    var INITIAL_DELAY_MS = 1400;
+    var CYCLE_DELAY_MS = 5000;
+
     // [data-card-href] sits directly on .flip-card for Playground/Case
     // Studies/gateway cards, but one level up on the <article> for Builds
     // rows — observe whichever element is the actual visible card boundary,
-    // then flip the nested .flip-card when that boundary enters view.
+    // then drive the nested .flip-card's cycle off that boundary's visibility.
     var autoFlipHosts = [];
     document.querySelectorAll('[data-card-href]').forEach(function (host) {
       var card = host.classList.contains('flip-card') ? host : host.querySelector('.flip-card');
-      if (card) autoFlipHosts.push({ host: host, card: card });
+      if (card) autoFlipHosts.push({ host: host, card: card, timer: null, userControlled: false });
     });
+
     if (autoFlipHosts.length) {
-      var autoFlipObserver = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-          if (!entry.isIntersecting) return;
-          var match = autoFlipHosts.filter(function (h) { return h.host === entry.target; })[0];
-          if (!match) return;
-          match.card.classList.add('is-flipped');
-          match.card.querySelectorAll('.flip-trigger').forEach(function (t) { t.setAttribute('aria-pressed', 'true'); });
-          autoFlipObserver.unobserve(entry.target);
+      var setFlipped = function (entry, flipped) {
+        entry.card.classList.toggle('is-flipped', flipped);
+        entry.card.querySelectorAll('.flip-trigger').forEach(function (t) {
+          t.setAttribute('aria-pressed', String(flipped));
         });
-      }, { threshold: 0.25 });
-      // Wait for an actual scroll before observing — a card already sitting
-      // in the viewport at page load hasn't "scrolled into view" yet, so it
-      // should keep its front face until the user starts scrolling.
-      window.addEventListener('scroll', function beginAutoFlipObserving() {
-        window.removeEventListener('scroll', beginAutoFlipObserving);
-        autoFlipHosts.forEach(function (h) { autoFlipObserver.observe(h.host); });
-      }, { passive: true, once: true });
+      };
+
+      var clearCycle = function (entry) {
+        if (entry.timer !== null) {
+          clearTimeout(entry.timer);
+          entry.timer = null;
+        }
+      };
+
+      var scheduleFlip = function (entry, delay, nextFlipped) {
+        clearCycle(entry);
+        entry.timer = setTimeout(function () {
+          if (entry.userControlled) return;
+          setFlipped(entry, nextFlipped);
+          scheduleFlip(entry, CYCLE_DELAY_MS, !nextFlipped);
+        }, delay);
+      };
+
+      // Once a user manually operates a card's own flip-trigger, that card
+      // is theirs — the automatic cycle stops scheduling any further flips
+      // for it, so it can never override what the user just chose.
+      autoFlipHosts.forEach(function (entry) {
+        entry.card.querySelectorAll('.flip-trigger').forEach(function (trigger) {
+          trigger.addEventListener('click', function () {
+            entry.userControlled = true;
+            clearCycle(entry);
+          });
+        });
+      });
+
+      var autoFlipObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (observerEntry) {
+          var match = autoFlipHosts.filter(function (h) { return h.host === observerEntry.target; })[0];
+          if (!match || match.userControlled) return;
+          if (observerEntry.intersectionRatio >= VISIBILITY_THRESHOLD) {
+            setFlipped(match, false);
+            scheduleFlip(match, INITIAL_DELAY_MS, true);
+          } else {
+            clearCycle(match);
+            setFlipped(match, false);
+          }
+        });
+      }, { threshold: [0, VISIBILITY_THRESHOLD] });
+
+      autoFlipHosts.forEach(function (h) { autoFlipObserver.observe(h.host); });
     }
   }
 
