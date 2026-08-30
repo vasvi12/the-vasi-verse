@@ -6,6 +6,7 @@
   'use strict';
 
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var supportsFineHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   /* Footer year */
   document.querySelectorAll('[data-year]').forEach(function (el) {
@@ -139,6 +140,43 @@
     });
   });
 
+  /* Mobile equivalent of the desktop hover-flip: on touch/coarse-pointer
+     devices there's no hover, so each clickable flip card flips once,
+     naturally, as it meaningfully enters the viewport while scrolling —
+     then stops being observed, so it never re-flips on scrolling back up
+     or down past it again. Desktop (fine hover) and reduced-motion both
+     skip this entirely and keep their existing behavior untouched. */
+  if (!supportsFineHover && !prefersReducedMotion && 'IntersectionObserver' in window) {
+    // [data-card-href] sits directly on .flip-card for Playground/Case
+    // Studies/gateway cards, but one level up on the <article> for Builds
+    // rows — observe whichever element is the actual visible card boundary,
+    // then flip the nested .flip-card when that boundary enters view.
+    var autoFlipHosts = [];
+    document.querySelectorAll('[data-card-href]').forEach(function (host) {
+      var card = host.classList.contains('flip-card') ? host : host.querySelector('.flip-card');
+      if (card) autoFlipHosts.push({ host: host, card: card });
+    });
+    if (autoFlipHosts.length) {
+      var autoFlipObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          var match = autoFlipHosts.filter(function (h) { return h.host === entry.target; })[0];
+          if (!match) return;
+          match.card.classList.add('is-flipped');
+          match.card.querySelectorAll('.flip-trigger').forEach(function (t) { t.setAttribute('aria-pressed', 'true'); });
+          autoFlipObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.25 });
+      // Wait for an actual scroll before observing — a card already sitting
+      // in the viewport at page load hasn't "scrolled into view" yet, so it
+      // should keep its front face until the user starts scrolling.
+      window.addEventListener('scroll', function beginAutoFlipObserving() {
+        window.removeEventListener('scroll', beginAutoFlipObserving);
+        autoFlipHosts.forEach(function (h) { autoFlipObserver.observe(h.host); });
+      }, { passive: true, once: true });
+    }
+  }
+
   /* Whole-card click-through (Builds rows, Case Studies cards) — clicking
      anywhere on a [data-card-href] card opens its destination, without
      wrapping the card (which already contains a real CTA link and flip
@@ -164,7 +202,6 @@
 
   /* Magnetic primary CTA — desktop, fine-pointer only. Reuses the button's
      existing hover transition (var(--dur-micro)) for the smooth return. */
-  var supportsFineHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (!prefersReducedMotion && supportsFineHover) {
     var MAGNETIC_MAX = 4; // px, per spec
     document.querySelectorAll('.btn-primary').forEach(function (btn) {

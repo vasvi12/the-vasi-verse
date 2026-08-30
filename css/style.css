@@ -268,6 +268,29 @@ body {
 
 .nav-logo:hover { color: var(--accent-blue); }
 
+/* Brand mark — identity, not navigation. Plain text (no href, no button
+   role), so no hover-lift/magnetic/cursor-trail behavior can ever attach to
+   it; the only feedback on hover is a slightly brighter border. */
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--accent-blue-border);
+  background: var(--accent-blue-bg);
+  cursor: default;
+  user-select: none;
+  transition: border-color var(--dur-micro) var(--ease-standard);
+}
+
+.brand-mark:hover { border-color: var(--accent-blue); }
+
 .nav-links {
   display: flex;
   align-items: center;
@@ -1494,3 +1517,8 @@ body {
 /* Gateway section */
 .gateway-heading { text-align: left; margin-bottom: 56px; max-width: 620px; }
 .gateway-heading .heading-1 { margin-bottom: 12px; }
+
+/* Homepage work showcase — groups the Builds rows and Playground timeline
+   under their own eyebrow label within the shared Explore My Work section. */
+.work-subsection .eyebrow { display: block; margin-bottom: 24px; }
+.work-subsection + .work-subsection { margin-top: 80px; }
